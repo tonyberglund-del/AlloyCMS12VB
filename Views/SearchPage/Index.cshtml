@@ -4,52 +4,27 @@
     Layout = "~/Views/Shared/Layouts/_TwoPlusOne.cshtml";
 }
 
+<!-- React GraphQL Search Component -->
 <div class="row">
-    <div class="span8,search-form">
-        @{
-            using (Html.BeginForm(null, null, Html.ViewContext.IsInEditMode() ? FormMethod.Post : FormMethod.Get, new { @action = Model.Layout.SearchActionUrl }))
-            {
-                <input type="text" tabindex="1" name="q" value="@Model.SearchedQuery" />
-                <input type="submit" tabindex="2" class="btn" value="@Html.Translate("/searchpagetemplate/searchbutton")" disabled="@(Model.SearchServiceDisabled ? "disabled" : null)" />
-            }
-        }
+    <div class="span8 search-form">
+        <div id="react-search-root"></div>
     </div>
 </div>
 
-@if (Model.Hits != null)
+<!-- Fallback original search form (for edit mode) -->
+@if (Html.ViewContext.IsInEditMode())
 {
     <div class="row">
-        <div class="span8 grayHead">
-            <h2>@Html.Translate("/searchpagetemplate/result")</h2>
-            <p>
-                @Html.Translate("/searchpagetemplate/searchfor") <i>@Model.SearchedQuery</i>
-                @Html.Translate("/searchpagetemplate/resultedin")
-                @if (Model.NumberOfHits > 0)
+        <div class="span8,search-form">
+            @{
+                using (Html.BeginForm(null, null, FormMethod.Post, new { @action = Model.Layout.SearchActionUrl }))
                 {
-                    @Model.NumberOfHits
+                    <input type="text" tabindex="1" name="q" value="@Model.SearchedQuery" />
+                    <input type="submit" tabindex="2" class="btn" value="@Html.Translate("/searchpagetemplate/searchbutton")" disabled="@(Model.SearchServiceDisabled ? "disabled" : null)" />
                 }
-                else
-                {
-                    @Html.Translate("/searchpagetemplate/zero")
-                }
-                @Html.Translate("/searchpagetemplate/hits")
-            </p>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="span8 SearchResults">
-            @foreach (var hit in Model.Hits)
-            {
-                <div class="listResult">
-                    <h3><a href="@hit.Url">@hit.Title</a></h3>
-                    <p>@hit.Excerpt</p>
-                    <hr />
-                </div>
             }
         </div>
     </div>
-
 }
 
 @if (Model.SearchServiceDisabled && Html.ViewContext.IsInEditMode())
@@ -60,12 +35,18 @@
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="~/dist/search-results.umd.js"></script>
     <script>
-        // This will be populated by your built React component
-        // Point to your built/bundled search-results.umd.js file
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('SearchPage loaded');
+            console.log('window.mountSearchResults:', window.mountSearchResults);
+            console.log('Initial query:', '@Model.SearchedQuery');
+            
             if (window.mountSearchResults) {
                 window.mountSearchResults('react-search-root', '@Model.SearchedQuery');
+                console.log('React component mounted');
+            } else {
+                console.error('window.mountSearchResults is not defined - script not loaded?');
             }
         });
     </script>

@@ -1,6 +1,7 @@
 App_Data/
 node_modules/
 artifacts/
+wwwroot/dist/
 
 # Visual Studio files
 *.user

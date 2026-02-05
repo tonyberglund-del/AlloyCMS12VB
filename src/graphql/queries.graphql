@@ -19,8 +19,8 @@ query GetContentItems($first: Int, $after: String, $locale: [Locales!]) {
   }
 }
 
-query SearchContent($query: String!, $first: Int, $after: String, $locale: [Locales!]) {
-  search(query: $query, first: $first, after: $after, locale: $locale) {
+query SearchContent($query: String!, $first: Int = 20, $after: String) {
+  search(query: $query, first: $first, after: $after) {
     edges {
       node {
         id
@@ -36,5 +36,11 @@ query SearchContent($query: String!, $first: Int, $after: String, $locale: [Loca
       hasNextPage
       endCursor
     }
+  }
+}
+
+query TotalItems {
+  Data {
+    total
   }
 }

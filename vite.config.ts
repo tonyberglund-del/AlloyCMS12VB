@@ -3,8 +3,14 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 
 export default defineConfig({
+    define: {
+        'process.env': JSON.stringify(process.env),
+        'process.platform': JSON.stringify(process.platform),
+    },
   plugins: [react()],
   build: {
+    outDir: path.resolve(__dirname, 'wwwroot/dist'),
+    emptyOutDir: true,
     lib: {
       entry: path.resolve(__dirname, 'src/main.tsx'),
       name: 'SearchResultsLib',

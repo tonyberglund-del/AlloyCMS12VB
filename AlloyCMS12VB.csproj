@@ -1,9 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>disable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+<PropertyGroup>
+  <TargetFramework>net8.0</TargetFramework>
+  <Nullable>disable</Nullable>
+  <ImplicitUsings>enable</ImplicitUsings>
+</PropertyGroup>
+
+<!-- Build React before ASP.NET -->
+<Target Name="BuildReact" BeforeTargets="Build">
+  <Exec Command="npm run build" WorkingDirectory="$(MSBuildProjectDirectory)" />
+</Target>
 
   <ItemGroup>
     <Using Include="EPiServer" />
@@ -25,5 +30,9 @@
   
   <ItemGroup>
     <EmbeddedResource Include="Resources\Translations\**\*" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="src\components\" />
   </ItemGroup>
 </Project>

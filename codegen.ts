@@ -5,8 +5,10 @@ const config: CodegenConfig = {
   documents: ['src/graphql/**/*.graphql', 'src/**/*.tsx'],
   generates: {
     './src/gql/': {
-      preset: 'client',
-      plugins: []
+          preset: 'client',
+          config: {
+        documentMode: 'string'
+        }
     }
   }
 };
