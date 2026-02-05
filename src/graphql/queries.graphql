@@ -1,0 +1,40 @@
+query GetContentItems($first: Int, $after: String, $locale: [Locales!]) {
+  content(first: $first, after: $after, locale: $locale) {
+    edges {
+      node {
+        id
+        displayName
+        changed
+        published
+        ... on Page {
+          heading
+          description
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
+
+query SearchContent($query: String!, $first: Int, $after: String, $locale: [Locales!]) {
+  search(query: $query, first: $first, after: $after, locale: $locale) {
+    edges {
+      node {
+        id
+        displayName
+        changed
+        ... on Page {
+          heading
+          description
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
