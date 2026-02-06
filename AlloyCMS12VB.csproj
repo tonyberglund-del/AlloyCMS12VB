@@ -33,6 +33,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Folder Include="src\components\" />
+    <Compile Include="src\components\ArticleSearch.tsx" />
   </ItemGroup>
 </Project>

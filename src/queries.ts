@@ -21,10 +21,22 @@ query seachContentData {
     }
 }
 `
-
-export const SEARCH_QUERY = gql`
-  query SearchArticles($limit: Int!, $skip: Int!) {
+export const GET_ALL_ARTICLES = gql`
+  query GetAllArticles($limit: Int, $skip: Int) {
     ArticlePage(limit: $limit, skip: $skip) {
+      total
+      items {
+        _id
+        Name
+        RelativePath
+      }
+    }
+  }
+`;
+
+export const SEARCH_ARTICLES = gql`
+  query SearchArticles($search: String!, $limit: Int, $skip: Int) {
+    ArticlePage( where: { Name: { contains: $search } } limit: $limit, skip: $skip) {
       total
       items {
         _id
