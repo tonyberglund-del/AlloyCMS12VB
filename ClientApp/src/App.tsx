@@ -6,10 +6,10 @@ import NewsSearch from './components/NewsSearch';
 type SearchType = 'article' | 'content' | 'news';
 
 const App: React.FC = () => {
-    const [searchType, setSearchType] = useState<SearchType>('article');
+    const [searchType, setSearchType] = useState<SearchType>('content');
 
     const handleChange = (value: string) => {
-        if (value === 'article' || value === 'content' || value === 'news') {
+        if ( value === 'content' || value === 'article' || value === 'news') {
             setSearchType(value);
         }
     };
@@ -31,7 +31,6 @@ const App: React.FC = () => {
             {searchType === 'content' && <ContentSearch />}
             {searchType === 'article' && <ArticleSearch />}
             {searchType === 'news' && <NewsSearch />}
-
 
         </div>
     );
