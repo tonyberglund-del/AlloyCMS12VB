@@ -1,7 +1,7 @@
 ﻿// components/ArticleSearch.tsx
-import React, { useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
-import { GET_TOTAL_ITEMS, SEARCH_ARTICLES } from '../queries';
+import { GET_ALL_ARTICLES, GET_TOTAL_ITEMS, SEARCH_ARTICLES } from '../queries';
 
 interface ArticleResult
 {
@@ -10,26 +10,28 @@ interface ArticleResult
     relativePath: string;
 }
 
-interface AppProps {
-  initialQuery?: string;
-}
+const ArticleSearch: React.FC = () => {
+    const [query, setQuery] = useState('');
+    const [debouncedQuery, setDebouncedQuery] = useState(query);
 
-const ArticleSearch: React.FC<AppProps> = ({ initialQuery = '' }) => {
-    const [query, setQuery] = useState(initialQuery);
+    useEffect(() => {
+        const timeout = setTimeout(() => setDebouncedQuery(query), 400);
+        return () => clearTimeout(timeout);
+    }, [query]);
 
 
      // Get total items count
     const { data: totalData } = useQuery(GET_TOTAL_ITEMS);
 
     // Load articles on component mount
-    const { data, loading, error } = useQuery(SEARCH_ARTICLES, {
+    const { data, loading, error } = useQuery(debouncedQuery.trim() ? SEARCH_ARTICLES: GET_ALL_ARTICLES,
+        {
         variables: {
-            search: query || null, // null = show all
+                search: debouncedQuery.trim() || undefined, 
             limit: 100,
             skip: 0,
         },
     });
-
 
     const results: ArticleResult[] =
         data?.ArticlePage?.items?.map((item: any) => ({
@@ -49,10 +51,9 @@ return (
             onChange={(e) => setQuery(e.target.value)}
             className="search-input"
           />
-          <button type="submit" className="btn" disabled={loading}>
-            {loading ? 'Searching...' : 'Search'}
-          </button>
-      </div>
+        </div>
+
+        <h3>Total Items: {totalData?.Data?.total ?? 'Loading...'}</h3>
 
       {error && (
         <div className="error-message">
@@ -60,7 +61,7 @@ return (
         </div>
       )}
 
-      {results.length > 0 && (
+      {results.length > 0 ? (
          <div className="search-results">
            <h2>Search Results</h2>
           <p>Found {results.length} result(s) for "{query}"</p>
@@ -76,12 +77,12 @@ return (
             ))}
           </div>
         </div>
-      )}
-
-      {!loading && results.length === 0 && query && !error && (
+        ) : (
+        !loading && results.length === 0 && query && !error && (
         <div className="no-results">
           <p>No results found for "{query}"</p>
         </div>
+        )
       )}
     </div>
   );

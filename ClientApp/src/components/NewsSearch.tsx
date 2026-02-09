@@ -9,12 +9,8 @@ interface NewsResult {
     relativePath: string;
 }
 
-interface AppProps {
-    initialQuery?: string;
-}
-
-const NewsSearch: React.FC<AppProps> = ({ initialQuery = '' }) => {
-    const [query, setQuery] = useState(initialQuery);
+const NewsSearch: React.FC = () => {
+    const [query, setQuery] = useState('');
     const [debouncedQuery, setDebouncedQuery] = useState(query);
     const { data: totalData } = useQuery(GET_TOTAL_ITEMS);
 
@@ -43,9 +39,8 @@ const NewsSearch: React.FC<AppProps> = ({ initialQuery = '' }) => {
 
     return (
         <div className="graphql-search-container">
-            <div className="search-form">
-                <h2>Total Items: {totalData?.Data?.total ?? 'Loading...'}</h2>
-                <form>
+              <h2>News Search</h2>
+                <div className="search-form">
                     <input
                         type="text"
                         placeholder="Search content..."
@@ -53,11 +48,9 @@ const NewsSearch: React.FC<AppProps> = ({ initialQuery = '' }) => {
                         onChange={(e) => setQuery(e.target.value)}
                         className="search-input"
                     />
-                    {/*<button type="submit" className="btn" disabled={loading}>*/}
-                    {/*    {loading ? 'Searching...' : 'Search'}*/}
-                    {/*</button>*/}
-                </form>
-            </div>
+               </div>
+
+            <h3>Total Items: {totalData?.Data?.total ?? 'Loading...'}</h3>
 
             {error && (
                 <div className="error-message">
@@ -65,28 +58,21 @@ const NewsSearch: React.FC<AppProps> = ({ initialQuery = '' }) => {
                 </div>
             )}
 
-            {results.length > 0 && (
+            {results.length > 0 ? (
                 <div className="search-results">
-                    <h2>Search Results</h2>
-                    <p>Found {results.length} result(s) for "{query}"</p>
-
-                    <div className="results-list">
-
-                        {results.map((result) => (
-                            <div key={result.id} className="result-item">
-                                <a href={result.relativePath || '#'}>
-                                    <h3>{result.displayName}</h3>
-                                </a>
-                            </div>
-                        ))}
+                    {results.map((result) => (
+                    <div key={result.id} className="result-item">
+                        <a href={result.relativePath || '#'}>
+                            <h3>{result.displayName}</h3>
+                        </a>
                     </div>
+                    ))}
                 </div>
-            )}
-
-            {!loading && results.length === 0 && query && !error && (
-                <div className="no-results">
-                    <p>No results found for "{query}"</p>
-                </div>
+                ) : (
+                !loading &&
+                debouncedQuery && (
+               <p>No results found for "{debouncedQuery}"</p>
+             )
             )}
         </div>
     );

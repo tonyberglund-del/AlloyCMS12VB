@@ -1,7 +1,7 @@
 // components/ContentSearch.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
-import { SEARCH_CONTENT_DATA } from '../queries';
+import { SEARCH_CONTENT_DATA, GET_TOTAL_ITEMS } from '../queries';
 
 interface ContentResult {
     title: string;
@@ -12,10 +12,19 @@ interface ContentResult {
 
 const ContentSearch: React.FC = () => {
     const [query, setQuery] = useState('');
+    const [debouncedQuery, setDebouncedQuery] = useState(query);
+
+    // Debounce input
+    useEffect(() => {
+        const timeout = setTimeout(() => setDebouncedQuery(query), 400);
+        return () => clearTimeout(timeout);
+    }, [query]);
+
+    const { data: totalData } = useQuery(GET_TOTAL_ITEMS);
 
     const { data, loading, error } = useQuery(SEARCH_CONTENT_DATA, {
         variables: {
-            search: query || null, // null visas alla
+            search: debouncedQuery || null, // null visas alla
             limit: 100,
             skip: 0,
         }
@@ -33,6 +42,7 @@ const ContentSearch: React.FC = () => {
     return (
         <div className="graphql-search-container">
             <h2>Content Search</h2>
+            <h3>Total Items: {totalData?.Data?.total ?? 'Loading...'}</h3>
             <div className="search-form">
                 <input
                     type="text"
@@ -41,14 +51,12 @@ const ContentSearch: React.FC = () => {
                     onChange={(e) => setQuery(e.target.value)}
                     className="search-input"
                 />
-                <button type="submit" disabled={loading}>
-                    {loading ? 'Searching...' : 'Search'}
-                </button>
             </div>
+            <br />
 
             {error && <p>Error: {error.message}</p>}
 
-            {results.length > 0 && (
+            {results.length > 0 ? (
                 <div className="search-results">
                     {results.map((result) => (
                         <div key={result.url} className="result-item">
@@ -59,8 +67,10 @@ const ContentSearch: React.FC = () => {
                         </div>
                     ))}
                 </div>
+            ) : (
+                !loading &&
+                debouncedQuery && <p>No results found for "{debouncedQuery}"</p>
             )}
-            {!loading && results.length === 0 && query && <p>No results found for "{query}"</p>}
         </div>
     );
 };
