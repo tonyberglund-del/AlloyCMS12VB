@@ -1,9 +1,18 @@
 ﻿import React, { useState } from 'react';
-import ArticleSearch from './components/ArticleSearch';
 import ContentSearch from './components/ContentSearch';
+import ArticleSearch from './components/ArticleSearch';
+import NewsSearch from './components/NewsSearch';
+
+type SearchType = 'article' | 'content' | 'news';
 
 const App: React.FC = () => {
-    const [searchType, setSearchType] = useState<'article' | 'content'>('article');
+    const [searchType, setSearchType] = useState<SearchType>('article');
+
+    const handleChange = (value: string) => {
+        if (value === 'article' || value === 'content' || value === 'news') {
+            setSearchType(value);
+        }
+    };
 
     return (
         <div>
@@ -11,19 +20,19 @@ const App: React.FC = () => {
 
             <select
                 value={searchType}
-                onChange={(e) =>
-                    setSearchType(e.target.value as 'article' | 'content')
-                }
+                onChange={(e) => handleChange(e.target.value)}
             >
                 <option value="content">All Content</option>
                 <option value="article">Article Pages</option>
-          
+                <option value="news">News Pages</option>
             </select>
 
             <hr />
-
-            {searchType === 'article' && <ArticleSearch />}
             {searchType === 'content' && <ContentSearch />}
+            {searchType === 'article' && <ArticleSearch />}
+            {searchType === 'news' && <NewsSearch />}
+
+
         </div>
     );
 };

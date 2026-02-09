@@ -34,8 +34,8 @@ namespace AlloyCMS12VB.Graph
             .IncludeField(x => x.SearchCategories()).Set(x => x.SearchCategories(), IndexingType.Searchable);
 
             conventionRepository.ForInstancesOf<ArticlePage>()
-                .IncludeField(x => x.Name).Set(x => x.Name, IndexingType.Searchable)
-                .IncludeField(x => x.MainBody).Set(x => x.MainBody, IndexingType.Searchable)
+                .IncludeField(x => x.SearchName()).Set(x => x.SearchName(), IndexingType.Searchable)
+                .IncludeField(x => x.SearchMainBody()).Set(x => x.SearchMainBody(), IndexingType.Searchable);
         }
     }
 }

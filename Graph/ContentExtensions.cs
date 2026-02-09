@@ -62,5 +62,15 @@ namespace AlloyCMS12VB.Graph
 
             return [];
         }
+
+        public static string SearchMainBody(this ArticlePage articleData)
+        {
+            return articleData.MainBody.ToString();
+        }
+
+        public static string SearchName(this ArticlePage articleData)
+        {
+              return articleData.Name;
+        }
     }
 }

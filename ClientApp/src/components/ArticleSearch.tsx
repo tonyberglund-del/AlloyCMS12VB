@@ -1,7 +1,7 @@
 ﻿// components/ArticleSearch.tsx
-import React, { useState, useEffect } from 'react';
-import { useLazyQuery, useQuery } from '@apollo/client';
-import { GET_TOTAL_ITEMS, SEARCH_ARTICLES, GET_ALL_ARTICLES } from '../queries';
+import React, { useState} from 'react';
+import { useQuery } from '@apollo/client';
+import { GET_TOTAL_ITEMS, SEARCH_ARTICLES } from '../queries';
 
 interface ArticleResult
 {
@@ -16,81 +16,32 @@ interface AppProps {
 
 const ArticleSearch: React.FC<AppProps> = ({ initialQuery = '' }) => {
     const [query, setQuery] = useState(initialQuery);
-    const [results, setResults] = useState<ArticleResult[]>([]);
+
 
      // Get total items count
     const { data: totalData } = useQuery(GET_TOTAL_ITEMS);
 
-    // Get headers to articles
-    const { data: initialData } = useQuery(GET_ALL_ARTICLES, { variables: { limit: 100, skip: 0 },
-    });
-
-    // Lazy query for search
-    const [executeSearch, { loading, error, data: searchData }] = useLazyQuery(SEARCH_ARTICLES);
-
     // Load articles on component mount
-    useEffect(() => {
-        console.log('Component mounted, loading articles...');
-        executeSearch({
-          variables: {
-            search: '',
+    const { data, loading, error } = useQuery(SEARCH_ARTICLES, {
+        variables: {
+            search: query || null, // null = show all
             limit: 100,
             skip: 0,
-          },
-        });
-      }, []);
-
-
-    useEffect(() => {
-    if (initialData?.ArticlePage?.items)
-    {
-        const mapped: ArticleResult[] = initialData.ArticlePage.items.map((item: any) => ({
-          id: item._id,
-          displayName: item.Name,
-          relativePath: item.RelativePath,
-        }));
-
-       setResults(mapped);
-      }
-    }, [initialData]);
-
-    useEffect(() => {
-    if (searchData?.ArticlePage?.items)
-    {
-        const mapped = searchData.ArticlePage.items.map((item: any) => ({
-        id: item._id,
-          displayName: item.Name,
-          relativePath: item.RelativePath,
-        }));
-
-       setResults(mapped);
-      }
-    }, [searchData]);
-
-const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('handleSearch called with query:', query);
-    
-    if (!query.trim()) {
-      setResults([]);
-      return;
-    }
-
-    executeSearch({
-    variables:
-        {
-        search: query,
-          limit: 100,
-          skip: 0,
         },
-      });
-    };
+    });
+
+
+    const results: ArticleResult[] =
+        data?.ArticlePage?.items?.map((item: any) => ({
+            id: item._id,
+            displayName: item.Name,
+            relativePath: item.RelativePath,
+        })) ?? [];
 
 return (
     <div className="graphql-search-container">
       <div className="search-form">
         <h2>Total Items: {totalData?.Data?.total ?? 'Loading...'}</h2>
-        <form onSubmit={handleSearch}>
           <input
             type="text"
             placeholder="Search content..."
@@ -101,7 +52,6 @@ return (
           <button type="submit" className="btn" disabled={loading}>
             {loading ? 'Searching...' : 'Search'}
           </button>
-        </form>
       </div>
 
       {error && (

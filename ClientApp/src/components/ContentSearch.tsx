@@ -1,79 +1,69 @@
 // components/ContentSearch.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { SEARCH_CONTENT_DATA } from '../queries';
 
 interface ContentResult {
-    searchTitle: string;
-    searchDescription: string;
+    title: string;
+    description: string;
     relativePath: string;
     url: string;
 }
 
 const ContentSearch: React.FC = () => {
     const [query, setQuery] = useState('');
-    const [allContent, setAllContent] = useState<ContentResult[]>([]);
-    const [results, setResults] = useState<ContentResult[]>([]);
 
-    const { data, loading, error } = useQuery(SEARCH_CONTENT_DATA);
-
-    useEffect(() => {
-        if (data?.ContentData?.items) {
-            const mapped = data.ContentData.items.map((item: any) => ({
-                searchTitle: item.SearchTitle,
-                searchDescription: item.SearchDescription,
-                relativePath: item.RelativePath,
-                url: item.Url,
-            }));
-
-            setAllContent(mapped);
+    const { data, loading, error } = useQuery(SEARCH_CONTENT_DATA, {
+        variables: {
+            search: query || null, // null visas alla
+            limit: 100,
+            skip: 0,
         }
-    }, [data]);
+    });
 
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault();
+    const results: ContentResult[] =
+        data?.ContentData?.items.map((item: any) => ({
+            title: item.SearchTitle,
+            description: item.SearchDescription,
+            relativePath: item.RelativePath,
+            url: item.Url,
+        })) ?? [];
 
-        if (!query.trim()) {
-            setResults([]);
-            return;
-        }
-
-        const filtered = allContent.filter((item) =>
-            item.searchTitle?.toLowerCase().includes(query.toLowerCase()) ||
-            item.searchDescription?.toLowerCase().includes(query.toLowerCase())
-        );
-
-        setResults(filtered);
-    };
 
     return (
-        <div>
+        <div className="graphql-search-container">
             <h2>Content Search</h2>
-
-            <form onSubmit={handleSearch}>
+            <div className="search-form">
                 <input
                     type="text"
                     placeholder="Search content..."
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
+                    className="search-input"
                 />
                 <button type="submit" disabled={loading}>
                     {loading ? 'Searching...' : 'Search'}
                 </button>
-            </form>
+            </div>
 
             {error && <p>Error: {error.message}</p>}
 
-            {results.map((result) => (
-                <div key={result.url}>
-                    <a href={result.relativePath}>
-                        <h3>{result.searchTitle}</h3>
-                        {result.searchDescription && <p>{result.searchDescription}</p>}
-                    </a>
+            {results.length > 0 && (
+                <div className="search-results">
+                    {results.map((result) => (
+                        <div key={result.url} className="result-item">
+                            <a href={result.relativePath || result.url}>
+                                <h3>{result.title}</h3>
+                                <p>{result.description}</p>
+                            </a>
+                        </div>
+                    ))}
                 </div>
-            ))}
+            )}
+            {!loading && results.length === 0 && query && <p>No results found for "{query}"</p>}
         </div>
     );
 };
+
 
 export default ContentSearch;

@@ -9,21 +9,24 @@ export const GET_TOTAL_ITEMS = gql`
 `;
 
 export const SEARCH_CONTENT_DATA = gql`
-query seachContentData {
-  ContentData {
-        total
+query seachContentData($search: String, $limit: Int, $skip: Int) {
+  ContentData(where: { SearchTitle: { contains: $search }}
+      limit: $limit
+      skip: $skip
+  ){
+    total
     items {
-            SearchTitle
-            SearchDescription
-            RelativePath
-            Url
-        }
-    }
+        SearchTitle
+        SearchDescription
+        RelativePath
+        Url
+      }
+   }
 }
 `
 export const GET_ALL_ARTICLES = gql`
   query GetAllArticles($limit: Int, $skip: Int) {
-    ArticlePage(limit: $limit, skip: $skip) {
+    ArticlePage(limit: $limit skip: $skip) {
       total
       items {
         _id
@@ -35,8 +38,12 @@ export const GET_ALL_ARTICLES = gql`
 `;
 
 export const SEARCH_ARTICLES = gql`
-  query SearchArticles($search: String!, $limit: Int, $skip: Int) {
-    ArticlePage( where: { Name: { contains: $search } } limit: $limit, skip: $skip) {
+  query SearchArticles($search: String, $limit: Int, $skip: Int) {
+    ArticlePage(
+      where: { Name: { contains: $search } }
+      limit: $limit 
+      skip: $skip
+    ) {
       total
       items {
         _id
@@ -47,43 +54,29 @@ export const SEARCH_ARTICLES = gql`
   }
 `;
 
-export const GET_ARTICLE_PAGE_FIELDS = gql`
-  query GetArticlePageFields {
-    __type(name: "ArticlePage") {
-      fields {
-        name
-        type {
-          name
-          kind
-        }
-      }
-    }
-  }
-`;
-
 export const GET_ALL_NEWS = gql`
   query GetAllNews($limit: Int, $skip: Int) {
     NewsPage(limit: $limit, skip: $skip) {
       total
       items {
-        SearchTitle
-        SearchDescription
-        RelativePath
-        Url
+         Name
+         SearchTitle
+         SearchDescription
+         RelativePath
       }
     }
   }
 `;
 
 export const SEARCH_NEWS = gql`
-  query SearchNews($search: String!, $limit: Int, $skip: Int) {
-      NewsPage(where: { SearchTitle {contains: $search}} limit: $limit, skip: $skip) {
+  query SearchNews($search: String, $limit: Int, $skip: Int) {
+      NewsPage(where: { SearchTitle: {contains: $search}} limit: $limit skip: $skip) {
         total
             items {
-            SearchTitle
-            SearchDescription
-            RelativePath
-            Url
+                Name
+                SearchTitle
+                SearchDescription
+                RelativePath
             }
     }
   }
