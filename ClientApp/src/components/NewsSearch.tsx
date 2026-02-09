@@ -37,9 +37,11 @@ const NewsSearch: React.FC = () => {
             relativePath: item.RelativePath,
         })) ?? [];
 
+    const totalNews = searchData?.NewsPage?.total ?? 0;
+
     return (
         <div className="graphql-search-container">
-              <h2>News Search</h2>
+            <h2>News Search</h2>
                 <div className="search-form">
                     <input
                         type="text"
@@ -48,10 +50,13 @@ const NewsSearch: React.FC = () => {
                         onChange={(e) => setQuery(e.target.value)}
                         className="search-input"
                     />
-               </div>
-
-            <h3>Total Items: {totalData?.Data?.total ?? 'Loading...'}</h3>
-
+            </div>
+            <div className="search-results">
+                <h5>Search Results</h5>
+                {debouncedQuery
+                    ? `Found ${totalNews} news item(s)`
+                    : `Total News: ${totalNews}`}
+     
             {error && (
                 <div className="error-message">
                     <p>Error: {error.message}</p>
@@ -74,6 +79,7 @@ const NewsSearch: React.FC = () => {
                <p>No results found for "{debouncedQuery}"</p>
              )
             )}
+            </div>
         </div>
     );
 };

@@ -1,7 +1,7 @@
 ﻿// components/ArticleSearch.tsx
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
-import { GET_ALL_ARTICLES, GET_TOTAL_ITEMS, SEARCH_ARTICLES } from '../queries';
+import { GET_ALL_ARTICLES, SEARCH_ARTICLES } from '../queries';
 
 interface ArticleResult
 {
@@ -19,15 +19,11 @@ const ArticleSearch: React.FC = () => {
         return () => clearTimeout(timeout);
     }, [query]);
 
-
-     // Get total items count
-    const { data: totalData } = useQuery(GET_TOTAL_ITEMS);
-
     // Load articles on component mount
     const { data, loading, error } = useQuery(debouncedQuery.trim() ? SEARCH_ARTICLES: GET_ALL_ARTICLES,
         {
         variables: {
-                search: debouncedQuery.trim() || undefined, 
+            search: debouncedQuery.trim() || undefined, 
             limit: 100,
             skip: 0,
         },
@@ -42,8 +38,8 @@ const ArticleSearch: React.FC = () => {
 
 return (
     <div className="graphql-search-container">
+        <h2>Article Search</h2>
       <div className="search-form">
-        <h2>Total Items: {totalData?.Data?.total ?? 'Loading...'}</h2>
           <input
             type="text"
             placeholder="Search content..."
@@ -52,9 +48,6 @@ return (
             className="search-input"
           />
         </div>
-
-        <h3>Total Items: {totalData?.Data?.total ?? 'Loading...'}</h3>
-
       {error && (
         <div className="error-message">
           <p>Error: {error.message}</p>
@@ -63,11 +56,9 @@ return (
 
       {results.length > 0 ? (
          <div className="search-results">
-           <h2>Search Results</h2>
+          <h5>Search Results</h5>
           <p>Found {results.length} result(s) for "{query}"</p>
-          
           <div className="results-list">
-
             {results.map((result) => (
                 <div key={result.id} className="result-item">
                     <a href={result.relativePath || '#'}>

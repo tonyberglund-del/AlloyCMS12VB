@@ -1,7 +1,7 @@
 // components/ContentSearch.tsx
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
-import { SEARCH_CONTENT_DATA, GET_TOTAL_ITEMS } from '../queries';
+import { SEARCH_CONTENT_DATA, GET_TOTAL_ITEMS, GET_ALL_CONTENT_DATA } from '../queries';
 
 interface ContentResult {
     title: string;
@@ -20,15 +20,18 @@ const ContentSearch: React.FC = () => {
         return () => clearTimeout(timeout);
     }, [query]);
 
-    const { data: totalData } = useQuery(GET_TOTAL_ITEMS);
-
-    const { data, loading, error } = useQuery(SEARCH_CONTENT_DATA, {
-        variables: {
-            search: debouncedQuery || null, // null visas alla
-            limit: 100,
-            skip: 0,
+    const { data, loading, error } = useQuery(
+        debouncedQuery.trim()
+            ? SEARCH_CONTENT_DATA
+            : GET_ALL_CONTENT_DATA,
+        {
+            variables: {
+                search: debouncedQuery.trim() || undefined,
+                limit: 100,
+                skip: 0,
+            },
         }
-    });
+    );
 
     const results: ContentResult[] =
         data?.ContentData?.items.map((item: any) => ({
@@ -42,7 +45,6 @@ const ContentSearch: React.FC = () => {
     return (
         <div className="graphql-search-container">
             <h2>Content Search</h2>
-            <h3>Total Items: {totalData?.Data?.total ?? 'Loading...'}</h3>
             <div className="search-form">
                 <input
                     type="text"
@@ -58,22 +60,34 @@ const ContentSearch: React.FC = () => {
 
             {results.length > 0 ? (
                 <div className="search-results">
-                    {results.map((result) => (
-                        <div key={result.url} className="result-item">
-                            <a href={result.relativePath || result.url}>
-                                <h3>{result.title}</h3>
-                                <p>{result.description}</p>
-                            </a>
-                        </div>
-                    ))}
+                    <h5>Search Results</h5>
+                    <p>
+                        {debouncedQuery
+                            ? `Found ${results.length} result(s) for "${debouncedQuery}"`
+                            : `Showing ${results.length} items`}
+                    </p>
+                    <div className="results-list">
+                        {results.map((result) => (
+                            <div key={result.url} className="result-item">
+                                <a href={result.relativePath || result.url}>
+                                    <h3>{result.title}</h3>
+                                    <p>{result.description}</p>
+                                </a>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             ) : (
                 !loading &&
-                debouncedQuery && <p>No results found for "{debouncedQuery}"</p>
+                results.length === 0 &&
+                debouncedQuery && (
+                    <div className="no-results">
+                        <p>No results found for "{debouncedQuery}"</p>
+                    </div>
+                )
             )}
         </div>
     );
 };
-
 
 export default ContentSearch;

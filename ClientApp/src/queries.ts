@@ -1,9 +1,16 @@
 import { gql } from '@apollo/client';
 
-export const GET_TOTAL_ITEMS = gql`
-  query TotalItems {
-    Data(limit: 1, skip: 0) {
+
+export const GET_ALL_CONTENT_DATA = gql`
+  query GetAllContentData($limit: Int, $skip: Int) {
+    ContentData(limit: $limit, skip: $skip) {
       total
+      items {
+        SearchTitle
+        SearchDescription
+        RelativePath
+        Url
+      }
     }
   }
 `;
@@ -72,12 +79,12 @@ export const SEARCH_NEWS = gql`
   query SearchNews($search: String, $limit: Int, $skip: Int) {
       NewsPage(where: { SearchTitle: {contains: $search}} limit: $limit skip: $skip) {
         total
-            items {
-                Name
-                SearchTitle
-                SearchDescription
-                RelativePath
-            }
+        items {
+            Name
+            SearchTitle
+            SearchDescription
+            RelativePath
+        }
     }
   }
 `;
