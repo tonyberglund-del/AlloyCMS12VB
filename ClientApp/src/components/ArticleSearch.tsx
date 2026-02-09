@@ -17,7 +17,6 @@ interface AppProps {
 const ArticleSearch: React.FC<AppProps> = ({ initialQuery = '' }) => {
     const [query, setQuery] = useState(initialQuery);
     const [results, setResults] = useState<ArticleResult[]>([]);
-    const [allItems, setAllItems] = useState<any[]>([]);
 
      // Get total items count
     const { data: totalData } = useQuery(GET_TOTAL_ITEMS);
@@ -45,8 +44,8 @@ const ArticleSearch: React.FC<AppProps> = ({ initialQuery = '' }) => {
     useEffect(() => {
     if (initialData?.ArticlePage?.items)
     {
-        const mapped = initialData.ArticlePage.items.map((item: any) => ({
-        id: item._id,
+        const mapped: ArticleResult[] = initialData.ArticlePage.items.map((item: any) => ({
+          id: item._id,
           displayName: item.Name,
           relativePath: item.RelativePath,
         }));
@@ -111,17 +110,15 @@ return (
         </div>
       )}
 
-
       {results.length > 0 && (
          <div className="search-results">
            <h2>Search Results</h2>
           <p>Found {results.length} result(s) for "{query}"</p>
-
           
           <div className="results-list">
 
             {results.map((result) => (
-                <div key={result.displayName} className="result-item">
+                <div key={result.id} className="result-item">
                     <a href={result.relativePath || '#'}>
                         <h3>{result.displayName}</h3>
                     </a>

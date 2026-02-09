@@ -60,3 +60,31 @@ export const GET_ARTICLE_PAGE_FIELDS = gql`
     }
   }
 `;
+
+export const GET_ALL_NEWS = gql`
+  query GetAllNews($limit: Int, $skip: Int) {
+    NewsPage(limit: $limit, skip: $skip) {
+      total
+      items {
+        SearchTitle
+        SearchDescription
+        RelativePath
+        Url
+      }
+    }
+  }
+`;
+
+export const SEARCH_NEWS = gql`
+  query SearchNews($search: String!, $limit: Int, $skip: Int) {
+      NewsPage(where: { SearchTitle {contains: $search}} limit: $limit, skip: $skip) {
+        total
+            items {
+            SearchTitle
+            SearchDescription
+            RelativePath
+            Url
+            }
+    }
+  }
+`;

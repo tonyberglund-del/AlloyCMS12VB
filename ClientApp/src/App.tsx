@@ -15,8 +15,9 @@ const App: React.FC = () => {
                     setSearchType(e.target.value as 'article' | 'content')
                 }
             >
-                <option value="article">Article Pages</option>
                 <option value="content">All Content</option>
+                <option value="article">Article Pages</option>
+          
             </select>
 
             <hr />

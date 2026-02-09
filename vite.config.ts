@@ -8,11 +8,12 @@ export default defineConfig({
         'process.platform': JSON.stringify(process.platform),
     },
   plugins: [react()],
-  build: {
+    build: {
+    manifest: true,
     outDir: path.resolve(__dirname, 'wwwroot/dist'),
     emptyOutDir: true,
     lib: {
-      entry: path.resolve(__dirname, 'src/main.tsx'),
+      entry: path.resolve(__dirname, 'ClientApp/src/main.tsx'),
       name: 'SearchResultsLib',
       fileName: (format) => `search-results.${format === 'es' ? 'js' : 'umd.js'}`,
     },

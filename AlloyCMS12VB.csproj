@@ -7,7 +7,8 @@
 
 <!-- Build React before ASP.NET -->
 <Target Name="BuildReact" BeforeTargets="Build">
-  <Exec Command="npm run build" WorkingDirectory="$(MSBuildProjectDirectory)" />
+    <Exec Command="npm install" WorkingDirectory="$(MSBuildProjectDirectory)\ClientApp" />
+    <Exec Command="npm run build" WorkingDirectory="$(MSBuildProjectDirectory)\ClientApp" />
 </Target>
 
   <ItemGroup>
@@ -33,6 +34,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Compile Include="src\components\ArticleSearch.tsx" />
+    <Compile Remove="src\**\*.ts" />
+    <Compile Remove="src\**\*.tsx" />
   </ItemGroup>
 </Project>
