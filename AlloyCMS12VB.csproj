@@ -37,4 +37,8 @@
     <Compile Remove="src\**\*.ts" />
     <Compile Remove="src\**\*.tsx" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="ClientApp\src\queries\" />
+  </ItemGroup>
 </Project>

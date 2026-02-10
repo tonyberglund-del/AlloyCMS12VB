@@ -1,41 +1,48 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { ApolloProvider } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import App from './App';
-import { apolloClient } from './apolloClient';
 
-// Export for use in Razor views
+// Lokalt mock-schema / GraphQL endpoint
+const apolloClient = new ApolloClient({
+    uri: '/graphql', // OBS: mock-schema -> kan sättas upp med ApolloServer lokalt, annars används Codegen direkt
+    cache: new InMemoryCache(),
+});
+
 declare global {
-  interface Window {
-    mountSearchResults: (containerId: string, initialQuery?: string) => void;
-  }
+    interface Window {
+        mountSearchResults: (containerId: string, initialQuery?: string) => void;
+    }
 }
 
+// Funktion för Razor / extern mount
 window.mountSearchResults = (containerId: string, initialQuery?: string) => {
-  console.log('mountSearchResults called with:', { containerId, initialQuery });
-  
-  const container = document.getElementById(containerId);
-  
-  if (!container) {
-    console.error(`Container with id "${containerId}" not found`);
-    return;
-  }
+    const container = document.getElementById(containerId);
+    if (!container) {
+        console.error(`Container with id "${containerId}" not found`);
+        return;
+    }
 
-  console.log('Container found, mounting React...');
-
-  try {
     const root = ReactDOM.createRoot(container);
     root.render(
-      <React.StrictMode>
-        <ApolloProvider client={apolloClient}>
-          <App initialQuery={initialQuery} />
-        </ApolloProvider>
-      </React.StrictMode>
+        <React.StrictMode>
+            <ApolloProvider client={apolloClient}>
+                <App initialQuery={initialQuery} />
+            </ApolloProvider>
+        </React.StrictMode>
     );
-    console.log('React component successfully mounted');
-  } catch (error) {
-    console.error('Error mounting React component:', error);
-  }
 };
 
-export { App };
+// Direkt mount (för utveckling)
+const devContainer = document.getElementById('root');
+if (devContainer) {
+    const root = ReactDOM.createRoot(devContainer);
+    root.render(
+        <React.StrictMode>
+            <ApolloProvider client={apolloClient}>
+                <App />
+            </ApolloProvider>
+        </React.StrictMode>
+    );
+}
+

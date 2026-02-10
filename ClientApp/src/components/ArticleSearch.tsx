@@ -1,17 +1,13 @@
-﻿// components/ArticleSearch.tsx
+﻿// ClientApp/src/components/ArticleSearch.tsx
 import React, { useState, useEffect } from 'react';
-import { useQuery } from '@apollo/client';
-import { GET_ALL_ARTICLES, SEARCH_ARTICLES } from '../queries';
+import { useGetAllArticlesQuery } from '../generated/graphql';
 
-interface ArticleResult
-{
-    id: string;
-    displayName: string;
-    relativePath: string;
+interface ArticleSearchProps {
+    initialQuery?: string;
 }
 
-const ArticleSearch: React.FC = () => {
-    const [query, setQuery] = useState('');
+const ArticleSearch: React.FC<ArticleSearchProps> = ({ initialQuery }) => {
+    const [query, setQuery] = useState(initialQuery || '');
     const [debouncedQuery, setDebouncedQuery] = useState(query);
 
     useEffect(() => {
@@ -19,65 +15,41 @@ const ArticleSearch: React.FC = () => {
         return () => clearTimeout(timeout);
     }, [query]);
 
-    // Load articles on component mount
-    const { data, loading, error } = useQuery(debouncedQuery.trim() ? SEARCH_ARTICLES: GET_ALL_ARTICLES,
-        {
-        variables: {
-            search: debouncedQuery.trim() || undefined, 
-            limit: 100,
-            skip: 0,
-        },
-    });
+    const { data, loading, error } = useGetAllArticlesQuery({ variables: { limit: 100, skip: 0 } });
 
-    const results: ArticleResult[] =
-        data?.ArticlePage?.items?.map((item: any) => ({
-            id: item._id,
-            displayName: item.Name,
-            relativePath: item.RelativePath,
-        })) ?? [];
+    const results =
+        data?.ArticlePage?.items
+            ?.filter((item): item is NonNullable<typeof item> => item != null)
+            .filter((item) => (debouncedQuery ? item.Name?.toLowerCase().includes(debouncedQuery.toLowerCase()) : true)) ?? [];
 
-return (
-    <div className="graphql-search-container">
-        <h2>Article Search</h2>
-      <div className="search-form">
-          <input
-            type="text"
-            placeholder="Search content..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="search-input"
-          />
-        </div>
-      {error && (
-        <div className="error-message">
-          <p>Error: {error.message}</p>
-        </div>
-      )}
+    return (
+        <div>
+            <h2>Article Search</h2>
+            <input
+                type="text"
+                placeholder="Search articles..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+            />
 
-      {results.length > 0 ? (
-         <div className="search-results">
-          <h5>Search Results</h5>
-          <p>Found {results.length} result(s) for "{query}"</p>
-          <div className="results-list">
-            {results.map((result) => (
-                <div key={result.id} className="result-item">
-                    <a href={result.relativePath || '#'}>
-                        <h3>{result.displayName}</h3>
-                    </a>
-                </div>
-            ))}
-          </div>
+            {loading && <p>Loading...</p>}
+            {error && <p>Error: {error.message}</p>}
+
+            {results.length > 0 ? (
+                <ul>
+                    {results.map((item) => (
+                        <li key={item._id}>
+                            <a href={item.RelativePath ?? '#'}>
+                                <h3>{item.Name}</h3>
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                !loading && debouncedQuery && <p>No results found for "{debouncedQuery}"</p>
+            )}
         </div>
-        ) : (
-        !loading && results.length === 0 && query && !error && (
-        <div className="no-results">
-          <p>No results found for "{query}"</p>
-        </div>
-        )
-      )}
-    </div>
-  );
+    );
 };
 
 export default ArticleSearch;
-

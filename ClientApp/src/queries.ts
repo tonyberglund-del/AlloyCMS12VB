@@ -15,22 +15,22 @@ export const GET_ALL_CONTENT_DATA = gql`
   }
 `;
 
-export const SEARCH_CONTENT_DATA = gql`
-query seachContentData($search: String, $limit: Int, $skip: Int) {
-  ContentData(where: { SearchTitle: { contains: $search }}
-      limit: $limit
-      skip: $skip
-  ){
-    total
-    items {
-        SearchTitle
-        SearchDescription
-        RelativePath
-        Url
-      }
-   }
-}
-`
+//export const SEARCH_CONTENT_DATA = gql`
+//query seachContentData($search: String, $limit: Int, $skip: Int) {
+//  ContentData(where: { SearchTitle: { contains: $search }}
+//      limit: $limit
+//      skip: $skip
+//  ){
+//    total
+//    items {
+//        SearchTitle
+//        SearchDescription
+//        RelativePath
+//        Url
+//      }
+//   }
+//}
+//`
 export const GET_ALL_ARTICLES = gql`
   query GetAllArticles($limit: Int, $skip: Int) {
     ArticlePage(limit: $limit skip: $skip) {

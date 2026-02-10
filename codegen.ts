@@ -1,16 +1,18 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
-  schema: 'https://latest.cg.optimizely.com/content/v2?auth=XvWW0aZKrE4fnyLevFNICVQVIp3WQ3FWf2rn4UZFnXbhUpJU',
-  documents: ['src/graphql/**/*.graphql', 'src/**/*.tsx'],
-  generates: {
-    './src/gql/': {
-          preset: 'client',
-          config: {
-        documentMode: 'string'
-        }
-    }
-  }
+    schema: './mock-schema.graphql',  // använder mock-schema
+    documents: 'ClientApp/src/**/*.ts?(x)',
+    generates: {
+        './ClientApp/src/generated/graphql.ts': {
+            plugins: [
+                'typescript',
+                'typescript-operations',
+                'typescript-react-apollo'
+            ],
+        },
+    },
+    ignoreNoDocuments: true,
 };
 
 export default config;

@@ -5,11 +5,16 @@ import NewsSearch from './components/NewsSearch';
 
 type SearchType = 'article' | 'content' | 'news';
 
-const App: React.FC = () => {
+interface AppProps {
+    initialQuery?: string;
+}
+
+const App: React.FC<AppProps> = ({ initialQuery }) => {
     const [searchType, setSearchType] = useState<SearchType>('content');
 
+
     const handleChange = (value: string) => {
-        if ( value === 'content' || value === 'article' || value === 'news') {
+        if (value === 'content' || value === 'article' || value === 'news') {
             setSearchType(value);
         }
     };
@@ -28,9 +33,9 @@ const App: React.FC = () => {
             </select>
 
             <hr />
-            {searchType === 'content' && <ContentSearch />}
-            {searchType === 'article' && <ArticleSearch />}
-            {searchType === 'news' && <NewsSearch />}
+            {searchType === 'content' && <ContentSearch initialQuery={initialQuery} />}
+            {searchType === 'article' && <ArticleSearch initialQuery={initialQuery} />}
+            {searchType === 'news' && <NewsSearch initialQuery={initialQuery} />}
 
         </div>
     );

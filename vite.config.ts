@@ -7,10 +7,11 @@ export default defineConfig({
         'process.env': JSON.stringify(process.env),
         'process.platform': JSON.stringify(process.platform),
     },
-  plugins: [react()],
+    plugins: [react()],
+    root: '.',
     build: {
     manifest: true,
-    outDir: path.resolve(__dirname, 'wwwroot/dist'),
+    outDir: 'dist',
     emptyOutDir: true,
     lib: {
       entry: path.resolve(__dirname, 'ClientApp/src/main.tsx'),

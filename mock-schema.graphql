@@ -1,0 +1,63 @@
+# === Scalars ===
+scalar ID
+scalar String
+scalar Int
+
+# === Filters ===
+input StringFilter {
+  contains: String
+}
+
+input ArticleWhereInput {
+  Name: StringFilter
+}
+
+input NewsWhereInput {
+  SearchTitle: StringFilter
+}
+
+# === Content ===
+type ContentItem {
+  SearchTitle: String
+  SearchDescription: String
+  RelativePath: String
+  Url: String
+}
+
+type ContentData {
+  total: Int
+  items: [ContentItem]
+}
+
+# === Articles ===
+type ArticleItem {
+  _id: ID
+  Name: String
+  RelativePath: String
+}
+
+type ArticleData {
+  total: Int
+  items: [ArticleItem]
+}
+
+# === News ===
+type NewsItem {
+  Name: String
+  SearchTitle: String
+  SearchDescription: String
+  RelativePath: String
+}
+
+type NewsData {
+  total: Int
+  items: [NewsItem]
+}
+
+# === Query root ===
+type Query {
+  ContentData(search: String, limit: Int, skip: Int): ContentData
+  ArticlePage(where: ArticleWhereInput, limit: Int, skip: Int): ArticleData
+  NewsPage(where: NewsWhereInput, limit: Int, skip: Int): NewsData
+}
+
