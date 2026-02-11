@@ -1,11 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 export default defineConfig({
     define: {
@@ -13,6 +8,7 @@ export default defineConfig({
         'process.platform': JSON.stringify(process.platform),
     },
     plugins: [react()],
+    root: '.',
     server: {
         proxy: {
             '/graphql': {
@@ -23,15 +19,14 @@ export default defineConfig({
         },
     },
     build: {
+        manifest: true,
+        outDir: 'dist',
+        emptyOutDir: true,
         lib: {
-            entry: path.resolve(__dirname, 'src/index.tsx'),
+            entry: path.resolve(__dirname, 'ClientApp/src/index.tsx'),
             name: 'SearchResultsLib',
             fileName: (format) => `search-results.${format === 'es' ? 'js' : 'umd.js'}`,
-            formats: ['umd', 'es'],
         },
-        outDir: path.resolve(__dirname, '../wwwroot/dist'),
-        emptyOutDir: true,
-        manifest: true,
         rollupOptions: {
             external: ['react', 'react-dom'],
             output: {
