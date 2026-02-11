@@ -10,131 +10,131 @@ export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' |
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
+    ID: { input: string; output: string; }
+    String: { input: string; output: string; }
+    Boolean: { input: boolean; output: boolean; }
+    Int: { input: number; output: number; }
+    Float: { input: number; output: number; }
 };
 
 export type ArticleData = {
-  __typename?: 'ArticleData';
-  items?: Maybe<Array<Maybe<ArticleItem>>>;
-  total?: Maybe<Scalars['Int']['output']>;
+    __typename?: 'ArticleData';
+    items?: Maybe<Array<Maybe<ArticleItem>>>;
+    total?: Maybe<Scalars['Int']['output']>;
 };
 
 export type ArticleItem = {
-  __typename?: 'ArticleItem';
-  Name?: Maybe<Scalars['String']['output']>;
-  RelativePath?: Maybe<Scalars['String']['output']>;
-  _id?: Maybe<Scalars['ID']['output']>;
+    __typename?: 'ArticleItem';
+    Name?: Maybe<Scalars['String']['output']>;
+    RelativePath?: Maybe<Scalars['String']['output']>;
+    _id?: Maybe<Scalars['ID']['output']>;
 };
 
 export type ArticleWhereInput = {
-  Name?: InputMaybe<StringFilter>;
+    Name?: InputMaybe<StringFilter>;
 };
 
 export type ContentData = {
-  __typename?: 'ContentData';
-  items?: Maybe<Array<Maybe<ContentItem>>>;
-  total?: Maybe<Scalars['Int']['output']>;
+    __typename?: 'ContentData';
+    items?: Maybe<Array<Maybe<ContentItem>>>;
+    total?: Maybe<Scalars['Int']['output']>;
 };
 
 export type ContentItem = {
-  __typename?: 'ContentItem';
-  RelativePath?: Maybe<Scalars['String']['output']>;
-  SearchDescription?: Maybe<Scalars['String']['output']>;
-  SearchTitle?: Maybe<Scalars['String']['output']>;
-  Url?: Maybe<Scalars['String']['output']>;
+    __typename?: 'ContentItem';
+    RelativePath?: Maybe<Scalars['String']['output']>;
+    SearchDescription?: Maybe<Scalars['String']['output']>;
+    SearchTitle?: Maybe<Scalars['String']['output']>;
+    Url?: Maybe<Scalars['String']['output']>;
 };
 
 export type NewsData = {
-  __typename?: 'NewsData';
-  items?: Maybe<Array<Maybe<NewsItem>>>;
-  total?: Maybe<Scalars['Int']['output']>;
+    __typename?: 'NewsData';
+    items?: Maybe<Array<Maybe<NewsItem>>>;
+    total?: Maybe<Scalars['Int']['output']>;
 };
 
 export type NewsItem = {
-  __typename?: 'NewsItem';
-  Name?: Maybe<Scalars['String']['output']>;
-  RelativePath?: Maybe<Scalars['String']['output']>;
-  SearchDescription?: Maybe<Scalars['String']['output']>;
-  SearchTitle?: Maybe<Scalars['String']['output']>;
+    __typename?: 'NewsItem';
+    Name?: Maybe<Scalars['String']['output']>;
+    RelativePath?: Maybe<Scalars['String']['output']>;
+    SearchDescription?: Maybe<Scalars['String']['output']>;
+    SearchTitle?: Maybe<Scalars['String']['output']>;
 };
 
 export type NewsWhereInput = {
-  SearchTitle?: InputMaybe<StringFilter>;
+    SearchTitle?: InputMaybe<StringFilter>;
 };
 
 export type Query = {
-  __typename?: 'Query';
-  ArticlePage?: Maybe<ArticleData>;
-  ContentData?: Maybe<ContentData>;
-  NewsPage?: Maybe<NewsData>;
+    __typename?: 'Query';
+    ArticlePage?: Maybe<ArticleData>;
+    ContentData?: Maybe<ContentData>;
+    NewsPage?: Maybe<NewsData>;
 };
 
 
 export type QueryArticlePageArgs = {
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<ArticleWhereInput>;
+    limit?: InputMaybe<Scalars['Int']['input']>;
+    skip?: InputMaybe<Scalars['Int']['input']>;
+    where?: InputMaybe<ArticleWhereInput>;
 };
 
 
 export type QueryContentDataArgs = {
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
+    limit?: InputMaybe<Scalars['Int']['input']>;
+    search?: InputMaybe<Scalars['String']['input']>;
+    skip?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
 export type QueryNewsPageArgs = {
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-  where?: InputMaybe<NewsWhereInput>;
+    limit?: InputMaybe<Scalars['Int']['input']>;
+    skip?: InputMaybe<Scalars['Int']['input']>;
+    where?: InputMaybe<NewsWhereInput>;
 };
 
 export type StringFilter = {
-  contains?: InputMaybe<Scalars['String']['input']>;
+    contains?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type GetAllContentDataQueryVariables = Exact<{
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
+    limit?: InputMaybe<Scalars['Int']['input']>;
+    skip?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
 export type GetAllContentDataQuery = { __typename?: 'Query', ContentData?: { __typename?: 'ContentData', total?: number | null, items?: Array<{ __typename?: 'ContentItem', SearchTitle?: string | null, SearchDescription?: string | null, RelativePath?: string | null, Url?: string | null } | null> | null } | null };
 
 export type GetAllArticlesQueryVariables = Exact<{
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
+    limit?: InputMaybe<Scalars['Int']['input']>;
+    skip?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
 export type GetAllArticlesQuery = { __typename?: 'Query', ArticlePage?: { __typename?: 'ArticleData', total?: number | null, items?: Array<{ __typename?: 'ArticleItem', _id?: string | null, Name?: string | null, RelativePath?: string | null } | null> | null } | null };
 
 export type SearchArticlesQueryVariables = Exact<{
-  search?: InputMaybe<Scalars['String']['input']>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
+    search?: InputMaybe<Scalars['String']['input']>;
+    limit?: InputMaybe<Scalars['Int']['input']>;
+    skip?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
 export type SearchArticlesQuery = { __typename?: 'Query', ArticlePage?: { __typename?: 'ArticleData', total?: number | null, items?: Array<{ __typename?: 'ArticleItem', _id?: string | null, Name?: string | null, RelativePath?: string | null } | null> | null } | null };
 
 export type GetAllNewsQueryVariables = Exact<{
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
+    limit?: InputMaybe<Scalars['Int']['input']>;
+    skip?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
 export type GetAllNewsQuery = { __typename?: 'Query', NewsPage?: { __typename?: 'NewsData', total?: number | null, items?: Array<{ __typename?: 'NewsItem', Name?: string | null, SearchTitle?: string | null, SearchDescription?: string | null, RelativePath?: string | null } | null> | null } | null };
 
 export type SearchNewsQueryVariables = Exact<{
-  search?: InputMaybe<Scalars['String']['input']>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
+    search?: InputMaybe<Scalars['String']['input']>;
+    limit?: InputMaybe<Scalars['Int']['input']>;
+    skip?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -173,20 +173,20 @@ export const GetAllContentDataDocument = gql`
  * });
  */
 export function useGetAllContentDataQuery(baseOptions?: Apollo.QueryHookOptions<GetAllContentDataQuery, GetAllContentDataQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAllContentDataQuery, GetAllContentDataQueryVariables>(GetAllContentDataDocument, options);
-      }
+    const options = { ...defaultOptions, ...baseOptions }
+    return Apollo.useQuery<GetAllContentDataQuery, GetAllContentDataQueryVariables>(GetAllContentDataDocument, options);
+}
 export function useGetAllContentDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllContentDataQuery, GetAllContentDataQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAllContentDataQuery, GetAllContentDataQueryVariables>(GetAllContentDataDocument, options);
-        }
+    const options = { ...defaultOptions, ...baseOptions }
+    return Apollo.useLazyQuery<GetAllContentDataQuery, GetAllContentDataQueryVariables>(GetAllContentDataDocument, options);
+}
 // @ts-ignore
 export function useGetAllContentDataSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllContentDataQuery, GetAllContentDataQueryVariables>): Apollo.UseSuspenseQueryResult<GetAllContentDataQuery, GetAllContentDataQueryVariables>;
 export function useGetAllContentDataSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetAllContentDataQuery, GetAllContentDataQueryVariables>): Apollo.UseSuspenseQueryResult<GetAllContentDataQuery | undefined, GetAllContentDataQueryVariables>;
 export function useGetAllContentDataSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetAllContentDataQuery, GetAllContentDataQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetAllContentDataQuery, GetAllContentDataQueryVariables>(GetAllContentDataDocument, options);
-        }
+    const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+    return Apollo.useSuspenseQuery<GetAllContentDataQuery, GetAllContentDataQueryVariables>(GetAllContentDataDocument, options);
+}
 export type GetAllContentDataQueryHookResult = ReturnType<typeof useGetAllContentDataQuery>;
 export type GetAllContentDataLazyQueryHookResult = ReturnType<typeof useGetAllContentDataLazyQuery>;
 export type GetAllContentDataSuspenseQueryHookResult = ReturnType<typeof useGetAllContentDataSuspenseQuery>;
@@ -222,20 +222,20 @@ export const GetAllArticlesDocument = gql`
  * });
  */
 export function useGetAllArticlesQuery(baseOptions?: Apollo.QueryHookOptions<GetAllArticlesQuery, GetAllArticlesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAllArticlesQuery, GetAllArticlesQueryVariables>(GetAllArticlesDocument, options);
-      }
+    const options = { ...defaultOptions, ...baseOptions }
+    return Apollo.useQuery<GetAllArticlesQuery, GetAllArticlesQueryVariables>(GetAllArticlesDocument, options);
+}
 export function useGetAllArticlesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllArticlesQuery, GetAllArticlesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAllArticlesQuery, GetAllArticlesQueryVariables>(GetAllArticlesDocument, options);
-        }
+    const options = { ...defaultOptions, ...baseOptions }
+    return Apollo.useLazyQuery<GetAllArticlesQuery, GetAllArticlesQueryVariables>(GetAllArticlesDocument, options);
+}
 // @ts-ignore
 export function useGetAllArticlesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllArticlesQuery, GetAllArticlesQueryVariables>): Apollo.UseSuspenseQueryResult<GetAllArticlesQuery, GetAllArticlesQueryVariables>;
 export function useGetAllArticlesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetAllArticlesQuery, GetAllArticlesQueryVariables>): Apollo.UseSuspenseQueryResult<GetAllArticlesQuery | undefined, GetAllArticlesQueryVariables>;
 export function useGetAllArticlesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetAllArticlesQuery, GetAllArticlesQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetAllArticlesQuery, GetAllArticlesQueryVariables>(GetAllArticlesDocument, options);
-        }
+    const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+    return Apollo.useSuspenseQuery<GetAllArticlesQuery, GetAllArticlesQueryVariables>(GetAllArticlesDocument, options);
+}
 export type GetAllArticlesQueryHookResult = ReturnType<typeof useGetAllArticlesQuery>;
 export type GetAllArticlesLazyQueryHookResult = ReturnType<typeof useGetAllArticlesLazyQuery>;
 export type GetAllArticlesSuspenseQueryHookResult = ReturnType<typeof useGetAllArticlesSuspenseQuery>;
@@ -272,20 +272,20 @@ export const SearchArticlesDocument = gql`
  * });
  */
 export function useSearchArticlesQuery(baseOptions?: Apollo.QueryHookOptions<SearchArticlesQuery, SearchArticlesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<SearchArticlesQuery, SearchArticlesQueryVariables>(SearchArticlesDocument, options);
-      }
+    const options = { ...defaultOptions, ...baseOptions }
+    return Apollo.useQuery<SearchArticlesQuery, SearchArticlesQueryVariables>(SearchArticlesDocument, options);
+}
 export function useSearchArticlesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchArticlesQuery, SearchArticlesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<SearchArticlesQuery, SearchArticlesQueryVariables>(SearchArticlesDocument, options);
-        }
+    const options = { ...defaultOptions, ...baseOptions }
+    return Apollo.useLazyQuery<SearchArticlesQuery, SearchArticlesQueryVariables>(SearchArticlesDocument, options);
+}
 // @ts-ignore
 export function useSearchArticlesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<SearchArticlesQuery, SearchArticlesQueryVariables>): Apollo.UseSuspenseQueryResult<SearchArticlesQuery, SearchArticlesQueryVariables>;
 export function useSearchArticlesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<SearchArticlesQuery, SearchArticlesQueryVariables>): Apollo.UseSuspenseQueryResult<SearchArticlesQuery | undefined, SearchArticlesQueryVariables>;
 export function useSearchArticlesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<SearchArticlesQuery, SearchArticlesQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<SearchArticlesQuery, SearchArticlesQueryVariables>(SearchArticlesDocument, options);
-        }
+    const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+    return Apollo.useSuspenseQuery<SearchArticlesQuery, SearchArticlesQueryVariables>(SearchArticlesDocument, options);
+}
 export type SearchArticlesQueryHookResult = ReturnType<typeof useSearchArticlesQuery>;
 export type SearchArticlesLazyQueryHookResult = ReturnType<typeof useSearchArticlesLazyQuery>;
 export type SearchArticlesSuspenseQueryHookResult = ReturnType<typeof useSearchArticlesSuspenseQuery>;
@@ -322,20 +322,20 @@ export const GetAllNewsDocument = gql`
  * });
  */
 export function useGetAllNewsQuery(baseOptions?: Apollo.QueryHookOptions<GetAllNewsQuery, GetAllNewsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAllNewsQuery, GetAllNewsQueryVariables>(GetAllNewsDocument, options);
-      }
+    const options = { ...defaultOptions, ...baseOptions }
+    return Apollo.useQuery<GetAllNewsQuery, GetAllNewsQueryVariables>(GetAllNewsDocument, options);
+}
 export function useGetAllNewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllNewsQuery, GetAllNewsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAllNewsQuery, GetAllNewsQueryVariables>(GetAllNewsDocument, options);
-        }
+    const options = { ...defaultOptions, ...baseOptions }
+    return Apollo.useLazyQuery<GetAllNewsQuery, GetAllNewsQueryVariables>(GetAllNewsDocument, options);
+}
 // @ts-ignore
 export function useGetAllNewsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllNewsQuery, GetAllNewsQueryVariables>): Apollo.UseSuspenseQueryResult<GetAllNewsQuery, GetAllNewsQueryVariables>;
 export function useGetAllNewsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetAllNewsQuery, GetAllNewsQueryVariables>): Apollo.UseSuspenseQueryResult<GetAllNewsQuery | undefined, GetAllNewsQueryVariables>;
 export function useGetAllNewsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetAllNewsQuery, GetAllNewsQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetAllNewsQuery, GetAllNewsQueryVariables>(GetAllNewsDocument, options);
-        }
+    const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+    return Apollo.useSuspenseQuery<GetAllNewsQuery, GetAllNewsQueryVariables>(GetAllNewsDocument, options);
+}
 export type GetAllNewsQueryHookResult = ReturnType<typeof useGetAllNewsQuery>;
 export type GetAllNewsLazyQueryHookResult = ReturnType<typeof useGetAllNewsLazyQuery>;
 export type GetAllNewsSuspenseQueryHookResult = ReturnType<typeof useGetAllNewsSuspenseQuery>;
@@ -373,20 +373,20 @@ export const SearchNewsDocument = gql`
  * });
  */
 export function useSearchNewsQuery(baseOptions?: Apollo.QueryHookOptions<SearchNewsQuery, SearchNewsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<SearchNewsQuery, SearchNewsQueryVariables>(SearchNewsDocument, options);
-      }
+    const options = { ...defaultOptions, ...baseOptions }
+    return Apollo.useQuery<SearchNewsQuery, SearchNewsQueryVariables>(SearchNewsDocument, options);
+}
 export function useSearchNewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchNewsQuery, SearchNewsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<SearchNewsQuery, SearchNewsQueryVariables>(SearchNewsDocument, options);
-        }
+    const options = { ...defaultOptions, ...baseOptions }
+    return Apollo.useLazyQuery<SearchNewsQuery, SearchNewsQueryVariables>(SearchNewsDocument, options);
+}
 // @ts-ignore
 export function useSearchNewsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<SearchNewsQuery, SearchNewsQueryVariables>): Apollo.UseSuspenseQueryResult<SearchNewsQuery, SearchNewsQueryVariables>;
 export function useSearchNewsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<SearchNewsQuery, SearchNewsQueryVariables>): Apollo.UseSuspenseQueryResult<SearchNewsQuery | undefined, SearchNewsQueryVariables>;
 export function useSearchNewsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<SearchNewsQuery, SearchNewsQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<SearchNewsQuery, SearchNewsQueryVariables>(SearchNewsDocument, options);
-        }
+    const options = baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions }
+    return Apollo.useSuspenseQuery<SearchNewsQuery, SearchNewsQueryVariables>(SearchNewsDocument, options);
+}
 export type SearchNewsQueryHookResult = ReturnType<typeof useSearchNewsQuery>;
 export type SearchNewsLazyQueryHookResult = ReturnType<typeof useSearchNewsLazyQuery>;
 export type SearchNewsSuspenseQueryHookResult = ReturnType<typeof useSearchNewsSuspenseQuery>;

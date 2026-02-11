@@ -5,12 +5,6 @@
   <ImplicitUsings>enable</ImplicitUsings>
 </PropertyGroup>
 
-<!-- Build React before ASP.NET -->
-<Target Name="BuildReact" BeforeTargets="Build">
-    <Exec Command="npm install" WorkingDirectory="$(MSBuildProjectDirectory)\ClientApp" />
-    <Exec Command="npm run build" WorkingDirectory="$(MSBuildProjectDirectory)\ClientApp" />
-</Target>
-
   <ItemGroup>
     <Using Include="EPiServer" />
     <Using Include="EPiServer.Core" />
@@ -34,11 +28,11 @@
   </ItemGroup>
   
   <ItemGroup>
+    <Compile Remove="ClientApp\src\queries\**" />
     <Compile Remove="src\**\*.ts" />
     <Compile Remove="src\**\*.tsx" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="ClientApp\src\queries\" />
+    <Content Remove="ClientApp\src\queries\**" />
+    <EmbeddedResource Remove="ClientApp\src\queries\**" />
+    <None Remove="ClientApp\src\queries\**" />
   </ItemGroup>
 </Project>

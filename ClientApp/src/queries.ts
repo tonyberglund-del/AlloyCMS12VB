@@ -66,10 +66,16 @@ export const GET_ALL_NEWS = gql`
     NewsPage(limit: $limit, skip: $skip) {
       total
       items {
-         Name
-         SearchTitle
-         SearchDescription
-         RelativePath
+        Name
+        SearchTitle
+        SearchDescription
+        RelativePath
+      }
+      facets {
+        SearchKeywords {
+          name
+          count
+        }
       }
     }
   }
@@ -77,14 +83,24 @@ export const GET_ALL_NEWS = gql`
 
 export const SEARCH_NEWS = gql`
   query SearchNews($search: String, $limit: Int, $skip: Int) {
-      NewsPage(where: { SearchTitle: {contains: $search}} limit: $limit skip: $skip) {
-        total
-        items {
-            Name
-            SearchTitle
-            SearchDescription
-            RelativePath
+    NewsPage(
+      where: { SearchTitle: { contains: $search } }
+      limit: $limit
+      skip: $skip
+    ) {
+      total
+      items {
+        Name
+        SearchTitle
+        SearchDescription
+        RelativePath
+      }
+      facets {
+        SearchKeywords {
+          name
+          count
         }
+      }
     }
   }
 `;

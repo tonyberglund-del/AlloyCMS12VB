@@ -1,10 +1,12 @@
 using AlloyCMS12VB.Extensions;
+using AlloyCMS12VB.Graph;
 using EPiServer.Cms.Shell;
 using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.Scheduler;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
-using AlloyCMS12VB.Graph;
+using Optimizely.ContentGraph.Cms.Configuration;
+using Optimizely.ContentGraph.Cms;
 
 namespace AlloyCMS12VB;
 
@@ -24,7 +26,23 @@ public class Startup
             AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(_webHostingEnvironment.ContentRootPath, "App_Data"));
 
             services.Configure<SchedulerOptions>(options => options.Enabled = false);
+            services.Configure<EventIndexingOptions>(options =>
+            {
+                options.Enable = false;
+            });
         }
+
+        // Lägg till CORS
+        services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(builder =>
+            {
+                builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            });
+        });
 
         services
             .AddCmsAspNetIdentity<ApplicationUser>()
@@ -52,7 +70,7 @@ public class Startup
         {
             app.UseDeveloperExceptionPage();
         }
-
+        app.UseCors();
         // Required by Wangkanai.Detection
         app.UseDetection();
         app.UseSession();
@@ -61,7 +79,6 @@ public class Startup
         app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();
-
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapContent();

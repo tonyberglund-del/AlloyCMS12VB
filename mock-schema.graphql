@@ -49,9 +49,19 @@ type NewsItem {
   RelativePath: String
 }
 
+type NewsFacets {
+  SearchKeywords: [FacetValue]
+}
+
+type FacetValue {
+  name: String
+  count: Int
+}
+
 type NewsData {
   total: Int
   items: [NewsItem]
+  facets: NewsFacets
 }
 
 # === Query root ===

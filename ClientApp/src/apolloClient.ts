@@ -1,6 +1,6 @@
 import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
 
-const GRAPHQL_ENDPOINT = 'https://latest.cg.optimizely.com/content/v2?auth=bUebySzn1VGAOWvSyTuNHsRcfuWRQTJ05cVIAbQeauSZGFqa';
+const GRAPHQL_ENDPOINT = '/graphql';
 
 const httpLink = new HttpLink({
   uri: GRAPHQL_ENDPOINT,

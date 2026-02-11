@@ -10,6 +10,10 @@ const config: CodegenConfig = {
                 'typescript-operations',
                 'typescript-react-apollo'
             ],
+            config: {
+                withHooks: true,
+                reactApolloVersion: 3,
+            }
         },
     },
     ignoreNoDocuments: true,
