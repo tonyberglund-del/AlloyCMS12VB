@@ -25,30 +25,18 @@ try {
         fs.mkdirSync(wwwrootDist, { recursive: true });
     }
 
-    // Kopiera manifest.json
-    const manifestSrc = path.join(distDir, 'manifest.json');
-    if (fs.existsSync(manifestSrc)) {
-        fs.copyFileSync(manifestSrc, path.join(wwwrootDist, 'manifest.json'));
-        console.log('✓ Copied manifest.json');
-    }
-
-    // Kopiera UMD/ES-filerna från assets
-    const assetsDir = path.join(distDir, 'assets');
-    if (fs.existsSync(assetsDir)) {
-        fs.readdirSync(assetsDir).forEach(file => {
-            if (file.endsWith('.js')) {
-                const src = path.join(assetsDir, file);
-                const destName = file.includes('SearchResultsLib') ?
-                    (file.includes('.es') ? 'search-results.es.js' : 'search-results.umd.js') :
-                    file;
-                const dest = path.join(wwwrootDist, destName);
-                fs.copyFileSync(src, dest);
-                console.log(`✓ Copied ${destName}`);
-            }
-        });
-    }
-
+    // Kopiera search-results.umd.js och search-results.js direkt från dist/
+    const files = ['search-results.umd.js', 'search-results.js'];
+    files.forEach(file => {
+        const src = path.join(distDir, file);
+        if (fs.existsSync(src)) {
+            const dest = path.join(wwwrootDist, file);
+            fs.copyFileSync(src, dest);
+            console.log(`✓ Copied ${file}`);
+        }
+    });
     console.log('✓ Build complete!');
+
 } catch (e) {
     console.error('Build failed:', e.message);
     process.exit(1);

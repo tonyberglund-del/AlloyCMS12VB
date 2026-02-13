@@ -1,13 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { apolloClient } from './apolloClient';
 import App from './App';
 
-// Lokalt mock-schema / GraphQL endpoint
-const apolloClient = new ApolloClient({
-    uri: '/graphql', // OBS: mock-schema -> kan sättas upp med ApolloServer lokalt, annars används Codegen direkt
-    cache: new InMemoryCache(),
-});
 
 declare global {
     interface Window {

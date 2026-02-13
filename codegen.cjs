@@ -1,10 +1,11 @@
-import type { CodegenConfig } from '@graphql-codegen/cli';
+ï»¿import type { CodegenConfig } from '@graphql-codegen/cli';
+import 'dotenv/config';
 
 const config: CodegenConfig = {
-    schema: './mock-schema.graphql',  // använder mock-schema
+    schema: 'https://latest.cg.optimizely.com/api/graphql?apikey=XvWW0aZKrE4fnyLevFNICVQVIp3WQ3FWf2rn4UZFnXbhUpJU',
     documents: 'ClientApp/src/**/*.ts?(x)',
     generates: {
-        './ClientApp/src/generated/graphql.ts': {
+        'ClientApp/src/generated/graphql.ts': {
             plugins: [
                 'typescript',
                 'typescript-operations',

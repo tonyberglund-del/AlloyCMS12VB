@@ -2,16 +2,18 @@
   "name": "alloy-cms-project",
   "version": "1.0.0",
   "type": "commonjs",
+  "description": "AlloyCMS with React Search Component",
   "scripts": {
     "download-schema": "node download-schema.cjs",
-    "codegen": "npx graphql-codegen",
-    "dev": "cd ClientApp && npx vite",
+    "codegen": "node codegen.cjs",
+    "dev": "cd ClientApp && npm run dev",
     "build": "node build-lib.js"
   },
   "dependencies": {
     "graphql": "^16.12.0",
     "graphql-request": "^7.4.0",
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^3.3.2",
+    "dotenv": "^17.2.4"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.7",

@@ -7,7 +7,7 @@ import fs from 'fs';
 import fetch from 'node-fetch';
 import { getIntrospectionQuery, printSchema, buildClientSchema } from 'graphql';
 
-const GRAPHQL_URL = 'https://localhost:5000/graphql'; // Ändra till din lokala endpoint
+const GRAPHQL_URL = 'https://latest.cg.optimizely.com/api/graphql?apikey=XvWW0aZKrE4fnyLevFNICVQVIp3WQ3FWf2rn4UZFnXbhUpJU';  // Ändra till din lokala endpoint
 
 async function downloadSchema() {
     try {

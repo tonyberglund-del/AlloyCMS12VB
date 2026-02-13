@@ -1,0 +1,8 @@
+{
+  "src/index.tsx": {
+    "file": "search-results.umd.js",
+    "name": "index",
+    "src": "src/index.tsx",
+    "isEntry": true
+  }
+}

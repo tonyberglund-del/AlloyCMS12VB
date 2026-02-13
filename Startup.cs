@@ -26,6 +26,7 @@ public class Startup
             AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(_webHostingEnvironment.ContentRootPath, "App_Data"));
 
             services.Configure<SchedulerOptions>(options => options.Enabled = false);
+            services.AddHttpClient();
             services.Configure<EventIndexingOptions>(options =>
             {
                 options.Enable = false;
@@ -41,6 +42,7 @@ public class Startup
                     .AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader();
+
             });
         });
 

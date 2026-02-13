@@ -1,10 +1,12 @@
 ﻿using EPiServer.DependencyInjection;
 using Optimizely.ContentGraph.Cms.Configuration;
+using Microsoft.AspNetCore.Routing;
+
 
 
 namespace AlloyCMS12VB.Graph
 {
-    public class GraphStartup
+    public static class GraphStartup
     {
         public static void RegisterGraph(IServiceCollection services)
         {
@@ -23,7 +25,6 @@ namespace AlloyCMS12VB.Graph
                 options.SyncContentsInParallelTaskAndForget = false;
             });
         }
+
     }
-
-
 }

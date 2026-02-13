@@ -3,27 +3,28 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 
 export default defineConfig({
-    define: {
-        'process.env': JSON.stringify(process.env),
-        'process.platform': JSON.stringify(process.platform),
-    },
     plugins: [react()],
-    root: '.',
-    server: {
-        proxy: {
-            '/graphql': {
-                target: 'http://localhost:5000',
-                changeOrigin: true,
-                secure: false,
-            },
-        },
+    define: {
+        'process.env.NODE_ENV': JSON.stringify('production'),
     },
+    server: {
+        port: 5173,
+        proxy: {
+            '/api/graphql': {
+                target: 'https://latest.cg.optimizely.com',
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/api\/graphql/, '/api/graphql'),
+                secure: false,
+            }
+        }
+    },
+    root: '.',
     build: {
         manifest: true,
         outDir: 'dist',
         emptyOutDir: true,
         lib: {
-            entry: path.resolve(__dirname, 'ClientApp/src/index.tsx'),
+            entry: path.resolve(__dirname, 'src/index.tsx'),
             name: 'SearchResultsLib',
             fileName: (format) => `search-results.${format === 'es' ? 'js' : 'umd.js'}`,
         },
