@@ -1,11 +1,18 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
-import 'dotenv/config'; 
+import path from 'path';
 
 const config: CodegenConfig = {
-    schema: `${process.env.VITE_CMS_SCHEMA_URL}`,
-    documents: 'ClientApp/src/**/*.ts?(x)',
+    // schema relativt till codegen.ts
+    //schema: path.join(__dirname, '../schema.graphql'),
+    schema: 'https://latest.cg.optimizely.com/content/v2?auth=bUebySzn1VGAOWvSyTuNHsRcfuWRQTJ05cVIAbQeauSZGFqa',
+
+    // varifrån query-dokumenten hämtas
+    documents: [
+        './src/graphql/**/*.graphql'
+    ],
+
     generates: {
-        './ClientApp/src/generated/graphql.ts': {
+        './src/generated/graphql.ts': {
             plugins: [
                 'typescript',
                 'typescript-operations',
@@ -15,7 +22,7 @@ const config: CodegenConfig = {
                 withHooks: true,
                 reactApolloVersion: 3,
             }
-        },
+        }
     },
     ignoreNoDocuments: true,
 };

@@ -2,7 +2,7 @@
 const path = require('path');
 const { execSync } = require('child_process');
 
-const clientAppDir = path.join(__dirname, 'ClientApp');
+const clientAppDir = __dirname;
 const indexPath = path.join(clientAppDir, 'index.html');
 const distDir = path.join(clientAppDir, 'dist');
 const wwwrootDist = path.join(__dirname, 'wwwroot/dist');
@@ -18,7 +18,7 @@ fs.writeFileSync(indexPath, html);
 
 console.log('Building React library...');
 try {
-    execSync('cd ClientApp && npx vite build', { stdio: 'inherit' });
+    execSync('npx vite build', { stdio: 'inherit' });
 
     // Skapa wwwroot/dist om den inte finns
     if (!fs.existsSync(wwwrootDist)) {

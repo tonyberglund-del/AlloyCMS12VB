@@ -1,0 +1,137 @@
+# ------------------------------
+# Scalars and basic filter types
+# ------------------------------
+scalar Int
+scalar String
+scalar Boolean
+
+# Enkel sträng-filter för contains / in
+input StringFilter {
+  contains: String
+  in: [String!]
+}
+
+# ------------------------------
+# Article types
+# ------------------------------
+type ArticleItem {
+  _id: String!
+  Name: String!
+  RelativePath: String!
+  SearchTitle: String!
+  SearchDescription: String!
+  SearchCategories: [String!]!
+  SearchKeywords: [String!]!
+}
+
+type FacetValue {
+  name: String!
+  count: Int!
+}
+
+type ArticleFacets {
+  SearchCategories: [FacetValue!]!
+  SearchKeywords: [FacetValue!]!
+}
+
+type ArticlePage {
+  total: Int!
+  items: [ArticleItem!]!
+  facets: ArticleFacets!
+}
+
+# ------------------------------
+# Inputs for querying / faceting
+# ------------------------------
+input ArticlePageWhereInput {
+  OR: [ArticlePageWhereInput!]
+  Name: StringFilter
+  SearchTitle: StringFilter
+  SearchDescription: StringFilter
+  SearchCategories: StringFilter
+  SearchKeywords: StringFilter
+}
+
+input FacetInput {
+  limit: Int
+}
+
+input ArticlePageFacetsInput {
+  SearchCategories: FacetInput
+  SearchKeywords: FacetInput
+}
+
+# ------------------------------
+# Queries
+# ------------------------------
+type Query {
+  ArticlePage(
+    where: ArticlePageWhereInput
+    limit: Int
+    skip: Int
+    facets: ArticlePageFacetsInput
+  ): ArticlePage
+
+  ContentData(
+    where: ContentDataWhereInput
+    limit: Int
+    skip: Int
+    facets: ContentDataFacetInput
+  ): ContentDataResult
+}
+
+# Result wrapper
+type ContentDataResult {
+  total: Int
+  items: [ContentDataItem]
+  facets: ContentDataFacetResult
+}
+
+# Själva content-typen
+type ContentDataItem {
+  SearchTitle: String
+  SearchDescription: String
+  RelativePath: String
+  Url: String
+  SearchKeywords: [String]
+}
+
+# WHERE
+input ContentDataWhereInput {
+  AND: [ContentDataWhereInput!]
+  OR: [ContentDataWhereInput!]
+
+  _fulltext: FullTextFilter
+  SearchTitle: StringFilter
+  SearchDescription: StringFilter
+  SearchKeywords: StringFilter
+}
+
+# Fulltext
+input FullTextFilter {
+  match: String
+}
+
+# String filter
+input StringFilter {
+  contains: String
+  in: [String]
+}
+
+# FACETS
+input ContentDataFacetInput {
+  SearchKeywords: FacetInput
+}
+
+input FacetInput {
+  limit: Int
+}
+
+type ContentDataFacetResult {
+  SearchKeywords: [FacetItem]
+}
+
+type FacetItem {
+  name: String
+  count: Int
+}

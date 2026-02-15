@@ -20,6 +20,7 @@
     <PackageReference Include="MimeKit" Version="4.14.0" />
     <PackageReference Include="Optimizely.ContentGraph.Cms" Version="4.3.1" />
     <PackageReference Include="SixLabors.ImageSharp" Version="2.1.12" />
+    <PackageReference Include="System.Linq.Async" Version="6.0.1" />
     <PackageReference Include="Wangkanai.Detection" Version="8.7.0" />
   </ItemGroup>
   
@@ -29,10 +30,42 @@
   
   <ItemGroup>
     <Compile Remove="ClientApp\src\queries\**" />
-    <Compile Remove="src\**\*.ts" />
-    <Compile Remove="src\**\*.tsx" />
     <Content Remove="ClientApp\src\queries\**" />
     <EmbeddedResource Remove="ClientApp\src\queries\**" />
     <None Remove="ClientApp\src\queries\**" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="ClientApp\src\generated\" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="wwwroot\css\bootstrap.min.css" />
+    <None Include="wwwroot\css\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <None Include="wwwroot\css\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <None Include="wwwroot\css\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <None Include="wwwroot\css\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <None Include="wwwroot\css\images\ui-bg_glass_75_dadada_1x400.png" />
+    <None Include="wwwroot\css\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <None Include="wwwroot\css\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <None Include="wwwroot\css\images\ui-icons_222222_256x240.png" />
+    <None Include="wwwroot\css\images\ui-icons_2e83ff_256x240.png" />
+    <None Include="wwwroot\css\images\ui-icons_454545_256x240.png" />
+    <None Include="wwwroot\css\images\ui-icons_888888_256x240.png" />
+    <None Include="wwwroot\css\images\ui-icons_cd0a0a_256x240.png" />
+    <None Include="wwwroot\css\style.css" />
+    <None Include="wwwroot\css\style.min.css" />
+    <None Include="wwwroot\css\theme.css" />
+    <None Include="wwwroot\css\theme.min.css" />
+    <None Include="wwwroot\dist\clientapp.css" />
+    <None Include="wwwroot\dist\search-results.umd.js" />
+    <None Include="wwwroot\favicon.ico" />
+    <None Include="wwwroot\gfx\logotype.png" />
+    <None Include="wwwroot\gfx\page-type-thumbnail-article.png" />
+    <None Include="wwwroot\gfx\page-type-thumbnail-contact.png" />
+    <None Include="wwwroot\gfx\page-type-thumbnail-product.png" />
+    <None Include="wwwroot\gfx\page-type-thumbnail-standard.png" />
+    <None Include="wwwroot\gfx\page-type-thumbnail.png" />
+    <None Include="wwwroot\js\bootstrap.bundle.min.js" />
   </ItemGroup>
 </Project>

@@ -7,7 +7,9 @@
 <!-- React GraphQL Search Component -->
 <div class="row">
     <div class="span8 search-form">
+        <div class="list-group">
         <div id="react-search-root"></div>
+        </div>
     </div>
 </div>
 
@@ -41,9 +43,11 @@
             console.log('SearchPage loaded');
             console.log('window.mountSearchResults:', window.mountSearchResults);
             console.log('Initial query:', '@Model.SearchedQuery');
+
+             console.log('Initial query raw:', '@Model.SearchedQuery');
             
             if (window.mountSearchResults) {
-                window.mountSearchResults('react-search-root', '@Model.SearchedQuery');
+                window.mountSearchResults('react-search-root', @Html.Raw(Json.Serialize(@Model.SearchedQuery)));
                 console.log('React component mounted');
             } else {
                 console.error('window.mountSearchResults is not defined - script not loaded?');

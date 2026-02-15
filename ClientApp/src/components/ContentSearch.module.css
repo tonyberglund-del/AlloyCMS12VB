@@ -1,0 +1,118 @@
+﻿.wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* 🔎 SEARCH */
+.searchForm {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+    .searchForm input {
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border: 1px solid #dcdcdc;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .searchForm input:focus {
+            outline: none;
+            border-color: #0078d4;
+            box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.15);
+        }
+
+    .searchForm button {
+        padding: 0.75rem 1.5rem;
+        background: #0078d4;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+        .searchForm button:hover {
+            background: #005fa3;
+        }
+
+        .searchForm button:active {
+            transform: scale(0.97);
+        }
+
+/* 🏷 FACETS */
+.facets {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #f8f9fb;
+    border-radius: 12px;
+    border: 1px solid #eee;
+}
+
+    .facets h4 {
+        margin-bottom: 1rem;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+.facetItem {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+}
+
+    .facetItem input {
+        cursor: pointer;
+    }
+
+/* 📄 RESULTS */
+.results {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.resultItem {
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    background: white;
+    transition: box-shadow 0.2s ease, transform 0.1s ease;
+}
+
+    .resultItem:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+        transform: translateY(-2px);
+    }
+
+    .resultItem h3 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.2rem;
+    }
+
+    .resultItem p {
+        margin: 0 0 0.75rem 0;
+        color: #555;
+    }
+
+    .resultItem a {
+        color: #0078d4;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+        .resultItem a:hover {
+            text-decoration: underline;
+        }
+
+
+    

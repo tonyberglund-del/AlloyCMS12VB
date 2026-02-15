@@ -1,0 +1,108 @@
+# ===== SCALARS =====
+scalar Int
+scalar String
+scalar Boolean
+
+# ===== FILTERS =====
+input StringFilter {
+  contains: String
+  in: [String!]
+}
+
+input FullTextFilter {
+  match: String
+}
+
+input FacetInput {
+  limit: Int
+}
+
+# ===== ARTICLE TYPES =====
+type ArticleItem {
+  _id: String!
+  Name: String!
+  RelativePath: String!
+  SearchTitle: String!
+  SearchDescription: String!
+  SearchCategories: [String!]!
+  SearchKeywords: [String!]!
+}
+
+type FacetValue {
+  name: String!
+  count: Int!
+}
+
+type ArticleFacets {
+  SearchCategories: [FacetValue!]!
+  SearchKeywords: [FacetValue!]!
+}
+
+type ArticlePage {
+  total: Int!
+  items: [ArticleItem!]!
+  facets: ArticleFacets!
+}
+
+input ArticlePageWhereInput {
+  OR: [ArticlePageWhereInput!]
+  Name: StringFilter
+  SearchTitle: StringFilter
+  SearchDescription: StringFilter
+  SearchCategories: StringFilter
+  SearchKeywords: StringFilter
+}
+
+input ArticlePageFacetsInput {
+  SearchCategories: FacetInput
+  SearchKeywords: FacetInput
+}
+
+# ===== CONTENT DATA TYPES =====
+type ContentDataItem {
+  SearchTitle: String!
+  SearchDescription: String!
+  RelativePath: String!
+  Url: String
+  SearchKeywords: [String!]!
+}
+
+type ContentDataFacetResult {
+  SearchKeywords: [FacetValue!]!
+}
+
+type ContentDataResult {
+  total: Int!
+  items: [ContentDataItem!]!
+  facets: ContentDataFacetResult!
+}
+
+input ContentDataWhereInput {
+  AND: [ContentDataWhereInput!]
+  OR: [ContentDataWhereInput!]
+  _fulltext: FullTextFilter
+  SearchTitle: StringFilter
+  SearchDescription: StringFilter
+  SearchKeywords: StringFilter
+}
+
+input ContentDataFacetInput {
+  SearchKeywords: FacetInput
+}
+
+# ===== QUERY ROOT =====
+type Query {
+  ArticlePage(
+    where: ArticlePageWhereInput
+    limit: Int
+    skip: Int
+    facets: ArticlePageFacetsInput
+  ): ArticlePage!
+
+  ContentData(
+    where: ContentDataWhereInput
+    limit: Int
+    skip: Int
+    facets: ContentDataFacetInput
+  ): ContentDataResult!
+}

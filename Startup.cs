@@ -38,11 +38,10 @@ public class Startup
         {
             options.AddDefaultPolicy(builder =>
             {
-                builder
-                    .AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
-
+               builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
             });
         });
 

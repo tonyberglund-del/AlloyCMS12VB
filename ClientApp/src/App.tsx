@@ -1,12 +1,12 @@
 ﻿import React, { useState } from 'react';
 import ContentSearch from './components/ContentSearch';
 import ArticleSearch from './components/ArticleSearch';
-import NewsSearch from './components/NewsSearch';
 
-type SearchType = 'article' | 'content' | 'news';
+type SearchType = 'article' | 'content';
 
 interface AppProps {
     initialQuery?: string;
+    type?: 'content' | 'article';
 }
 
 const App: React.FC<AppProps> = ({ initialQuery }) => {
@@ -14,7 +14,7 @@ const App: React.FC<AppProps> = ({ initialQuery }) => {
 
 
     const handleChange = (value: string) => {
-        if (value === 'content' || value === 'article' || value === 'news') {
+        if (value === 'content' || value === 'article') {
             setSearchType(value);
         }
     };
@@ -29,14 +29,13 @@ const App: React.FC<AppProps> = ({ initialQuery }) => {
             >
                 <option value="content">All Content</option>
                 <option value="article">Article Pages</option>
-                <option value="news">News Pages</option>
             </select>
 
             <hr />
-            {searchType === 'content' && <ContentSearch initialQuery={initialQuery} />}
-            {searchType === 'article' && <ArticleSearch initialQuery={initialQuery} />}
-            {searchType === 'news' && <NewsSearch initialQuery={initialQuery} />}
-
+            <div className="search-wrapper">
+                {searchType === 'content' && <ContentSearch initialQuery={initialQuery} />}
+                {searchType === 'article' && <ArticleSearch initialQuery={initialQuery} />}
+            </div>
         </div>
     );
 };

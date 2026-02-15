@@ -70,7 +70,17 @@ namespace AlloyCMS12VB.Graph
 
         public static string SearchName(this ArticlePage articleData)
         {
-              return articleData.Name;
+            if (articleData is SitePageData sitePageData && !string.IsNullOrWhiteSpace(sitePageData.MetaTitle))
+            {
+                return sitePageData.MetaTitle;
+            }
+
+            if (articleData is IContent content)
+            {
+                return content.Name;
+            }
+
+            return null;
         }
     }
 }

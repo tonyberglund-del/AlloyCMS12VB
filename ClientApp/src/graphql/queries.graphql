@@ -1,0 +1,61 @@
+# -------------------------------
+# Query för ContentData med facetter
+# -------------------------------
+query SearchQuery($searchPhrase: String, $limit: Int, $skip: Int) {
+  ContentData(
+    where: {_fulltext: {match: $searchPhrase}}
+    limit: $limit
+    skip: $skip
+  ) {
+    items {
+      SearchTitle
+      SearchDescription
+      RelativePath
+      Url
+      SearchCategories
+      SearchKeywords
+    }
+  }
+}
+
+# -------------------------------
+# Query för ArticlePage med facetter
+# -------------------------------
+query SearchArticles(
+  $search: String
+  $limit: Int
+  $skip: Int
+  $categories: [String!]
+) {
+  ArticlePage(
+    where: {
+      _or: [
+        { Name: { contains: $search } }
+        { SearchCategories: { in: $categories } }
+      ]
+    }
+    limit: $limit
+    skip: $skip
+   ){
+   total
+    items {
+      _id
+      Name
+      RelativePath
+      SearchTitle
+      SearchDescription
+      SearchCategories
+      SearchKeywords
+     }
+    facets {
+      SearchCategories {
+        name
+        count
+    }
+   }
+  }
+ }
+
+
+
+

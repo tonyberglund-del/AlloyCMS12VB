@@ -7,7 +7,7 @@
     "download-schema": "node download-schema.cjs",
     "codegen": "node codegen.cjs",
     "dev": "cd ClientApp && npm run dev",
-    "build": "node build-lib.js"
+    "build": "node build-lib.cjs"
   },
   "dependencies": {
     "graphql": "^16.12.0",
