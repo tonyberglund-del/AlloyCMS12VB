@@ -14605,10 +14605,9 @@ export type SearchQueryQuery = { __typename?: 'Query', ContentData?: { __typenam
      | null> | null } | null };
 
 export type SearchArticlesQueryVariables = Exact<{
-  search?: InputMaybe<Scalars['String']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
-  categories?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  where?: InputMaybe<ArticlePageWhereInput>;
 }>;
 
 
@@ -14672,12 +14671,8 @@ export type SearchQueryLazyQueryHookResult = ReturnType<typeof useSearchQueryLaz
 export type SearchQuerySuspenseQueryHookResult = ReturnType<typeof useSearchQuerySuspenseQuery>;
 export type SearchQueryQueryResult = Apollo.QueryResult<SearchQueryQuery, SearchQueryQueryVariables>;
 export const SearchArticlesDocument = gql`
-    query SearchArticles($search: String, $limit: Int, $skip: Int, $categories: [String!]) {
-  ArticlePage(
-    where: {_or: [{Name: {contains: $search}}, {SearchCategories: {in: $categories}}]}
-    limit: $limit
-    skip: $skip
-  ) {
+    query SearchArticles($limit: Int, $skip: Int, $where: ArticlePageWhereInput) {
+  ArticlePage(where: $where, limit: $limit, skip: $skip) {
     total
     items {
       _id
@@ -14710,10 +14705,9 @@ export const SearchArticlesDocument = gql`
  * @example
  * const { data, loading, error } = useSearchArticlesQuery({
  *   variables: {
- *      search: // value for 'search'
  *      limit: // value for 'limit'
  *      skip: // value for 'skip'
- *      categories: // value for 'categories'
+ *      where: // value for 'where'
  *   },
  * });
  */

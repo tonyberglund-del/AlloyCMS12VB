@@ -22,18 +22,12 @@ query SearchQuery($searchPhrase: String, $limit: Int, $skip: Int) {
 # Query för ArticlePage med facetter
 # -------------------------------
 query SearchArticles(
-  $search: String
   $limit: Int
   $skip: Int
-  $categories: [String!]
+  $where: ArticlePageWhereInput
 ) {
   ArticlePage(
-    where: {
-      _or: [
-        { Name: { contains: $search } }
-        { SearchCategories: { in: $categories } }
-      ]
-    }
+    where: $where
     limit: $limit
     skip: $skip
    ){

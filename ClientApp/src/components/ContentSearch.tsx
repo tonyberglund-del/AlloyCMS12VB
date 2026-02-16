@@ -9,7 +9,7 @@ interface ContentSearchProps {
 
 const ContentSearch: React.FC<ContentSearchProps> = ({ initialQuery = '' }) => {
     const [search, setSearch] = useState(initialQuery);
-    const [debouncedSearch] = useDebounce(search, 500);
+    const [debouncedSearch, setDebouncedSearch] = useState(initialQuery);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
 
@@ -21,6 +21,10 @@ const ContentSearch: React.FC<ContentSearchProps> = ({ initialQuery = '' }) => {
         },
         fetchPolicy: 'network-only',
     });
+    useEffect(() => {
+        const handler = setTimeout(() => setDebouncedSearch(search), 500);
+        return () => clearTimeout(handler);
+    }, [search]);
 
     // Refetcha när söktext eller keyword-filter ändras
     useEffect(() => {
