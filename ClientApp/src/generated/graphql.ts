@@ -14672,7 +14672,12 @@ export type SearchQuerySuspenseQueryHookResult = ReturnType<typeof useSearchQuer
 export type SearchQueryQueryResult = Apollo.QueryResult<SearchQueryQuery, SearchQueryQueryVariables>;
 export const SearchArticlesDocument = gql`
     query SearchArticles($limit: Int, $skip: Int, $where: ArticlePageWhereInput) {
-  ArticlePage(where: $where, limit: $limit, skip: $skip) {
+  ArticlePage(
+    where: $where
+    limit: $limit
+    skip: $skip
+    orderBy: {SearchTitle: ASC}
+  ) {
     total
     items {
       _id

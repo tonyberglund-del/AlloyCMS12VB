@@ -30,6 +30,7 @@ query SearchArticles(
     where: $where
     limit: $limit
     skip: $skip
+    orderBy: { SearchTitle: ASC }
    ){
    total
     items {

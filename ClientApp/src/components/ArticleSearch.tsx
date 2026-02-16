@@ -24,27 +24,30 @@ const ArticleSearch: React.FC<ArticleSearchProps> = ({ initialQuery = '' }) => {
         fetchPolicy: 'cache-and-network',
     });
 
-    const allCategories = facetData?.ArticlePage?.facets.SearchCategories.map(f => f.name) || [];
-    const categoryCounts = facetData?.ArticlePage?.facets.SearchCategories.reduce((acc, f) => {
-        acc[f.name] = f.count;
-        return acc;
-    }, {} as Record<string, number>);
-    
+    const allCategories =
+        facetData?.ArticlePage?.facets.SearchCategories
+            .slice()
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map(f => f.name) || [];
+    const categoryCounts = facetData?.ArticlePage?.facets.SearchCategories.reduce(
+        (acc, f) => {
+            acc[f.name] = f.count;
+            return acc;
+        },
+        {} as Record<string, number>
+    );
 
+    // --- Toggle kategori ---
     const toggleCategory = (name: string) =>
         setSelectedCategories((prev) =>
             prev.includes(name) ? prev.filter(c => c !== name) : [...prev, name]
         );
 
-
-     //Bygg textsök villkor
-    const textCondition = debouncedSearch
-        ? { _fulltext: { match: debouncedSearch } }
-        : undefined;
-
+    // --- Bygg filtervillkor ---
+    const textCondition = debouncedSearch ? { _fulltext: { match: debouncedSearch } } : undefined;
     const categoryCondition =
         selectedCategories.length > 0
-            ? { _or: selectedCategories.map((cat) => ({ SearchCategories: { in: [cat] } })) }
+            ? { _or: selectedCategories.map(cat => ({ SearchCategories: { in: [cat] } })) }
             : undefined;
 
     // Kombinera villkor
@@ -61,10 +64,7 @@ const ArticleSearch: React.FC<ArticleSearchProps> = ({ initialQuery = '' }) => {
         fetchPolicy: 'cache-and-network',
     });
 
-
     const items = data?.ArticlePage?.items || [];
-
-
 
     // Sortera artiklar så de valda kategorierna kommer först
     const sortedItems = [...items].sort((a, b) => {
@@ -87,6 +87,7 @@ const ArticleSearch: React.FC<ArticleSearchProps> = ({ initialQuery = '' }) => {
 
     return (
         <div>
+            {/* Sökfält */}
             <input
                 type="text"
                 value={search}
@@ -94,7 +95,7 @@ const ArticleSearch: React.FC<ArticleSearchProps> = ({ initialQuery = '' }) => {
                 placeholder="Sök artiklar..."
                 style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '1rem' }}
             />
-
+            {/* Kategorifilter */}
             <div
                 style={{
                     display: 'flex',
@@ -119,6 +120,7 @@ const ArticleSearch: React.FC<ArticleSearchProps> = ({ initialQuery = '' }) => {
                 })}
             </div>
 
+            {/* Artikellista */}
             <ul style={{ listStyle: 'none', padding: 0 }}>
                 {sortedItems.map((item) => (
                     <li key={item.RelativePath || item._id} style={{ marginBottom:'1.5rem', borderBottom:'1px solid #ccc', paddingBottom:'1rem' }}>
@@ -133,9 +135,6 @@ const ArticleSearch: React.FC<ArticleSearchProps> = ({ initialQuery = '' }) => {
                             <p style={{ fontStyle: 'italic', marginTop: '0.5rem' }}>
                                 Kategorier: {item.SearchCategories.join(', ')}
                             </p>
-                        )}
-                        {item.SearchKeywords?.length > 0 && (
-                            <p style={{ marginTop: '0.25rem' }}>Nyckelord: {item.SearchKeywords.join(', ')}</p>
                         )}
                     </li>
                 ))}
